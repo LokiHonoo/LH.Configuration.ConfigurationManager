@@ -5,7 +5,7 @@ using System.Xml.Linq;
 namespace LH.Configuration
 {
     /// <summary>
-    /// 连接配置属性。
+    /// 连接属性。
     /// </summary>
     public sealed class ConnectionStringsValue
     {
@@ -16,7 +16,7 @@ namespace LH.Configuration
         private bool _generated;
 
         /// <summary>
-        /// 获取连接实例。如果配置属性中没有数据库引擎参数，将引发异常。
+        /// 获取连接实例。如果连接属性中没有数据库引擎参数，将引发异常。
         /// </summary>
         public DbConnection Connection
         {

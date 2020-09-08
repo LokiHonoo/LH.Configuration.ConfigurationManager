@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace LH.Configuration
 {
     /// <summary>
-    /// 配置属性。
+    /// 配置容器。
     /// </summary>
     public sealed class DictionarySection : ConfigSection
     {
@@ -13,27 +11,11 @@ namespace LH.Configuration
         private readonly DictionarySectionPropertySet _properties;
 
         /// <summary>
-        /// 包含的配置属性集合。
+        /// 获取配置属性集合。
         /// </summary>
         public DictionarySectionPropertySet Properties => _properties;
 
         #region Constructor
-
-        /// <summary>
-        /// 创建 DictionarySection 的新实例。
-        /// </summary>
-        /// <param name="value">配置属性的值。</param>
-        public DictionarySection(IDictionary<string, object> value) : base("System.Configuration.DictionarySectionHandler")
-        {
-            if (value is null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-            XElement content = new XElement("newSection");
-            XValueHelper.SetDictionarySection(value, content);
-            _properties = new DictionarySectionPropertySet(content, null);
-            _content = content;
-        }
 
         internal DictionarySection(XElement content, ISavable savable) : base("System.Configuration.DictionarySectionHandler")
         {

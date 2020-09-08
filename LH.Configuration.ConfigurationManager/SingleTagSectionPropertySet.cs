@@ -68,7 +68,7 @@ namespace LH.Configuration
                 if (_values.Remove(key))
                 {
                     _content.Attribute(key).Remove();
-                    if (!(_savable is null) && _savable.AutoSave)
+                    if (_savable.AutoSave)
                     {
                         _savable.Save();
                     }
@@ -86,7 +86,7 @@ namespace LH.Configuration
                     _content.SetAttributeValue(key, value);
                     _values.Add(key, value);
                 }
-                if (!(_savable is null) && _savable.AutoSave)
+                if (_savable.AutoSave)
                 {
                     _savable.Save();
                 }
@@ -100,7 +100,7 @@ namespace LH.Configuration
         {
             _values.Clear();
             _content.RemoveAttributes();
-            if (!(_savable is null) && _savable.AutoSave)
+            if (_savable.AutoSave)
             {
                 _savable.Save();
             }
@@ -140,7 +140,7 @@ namespace LH.Configuration
             if (_values.Remove(key))
             {
                 _content.Attribute(key).Remove();
-                if (!(_savable is null) && _savable.AutoSave)
+                if (_savable.AutoSave)
                 {
                     _savable.Save();
                 }
@@ -161,11 +161,6 @@ namespace LH.Configuration
         public bool TryGetValue(string key, out string value)
         {
             return _values.TryGetValue(key, out value);
-        }
-
-        internal IDictionary<string, string> GetInternalValues()
-        {
-            return _values;
         }
     }
 }

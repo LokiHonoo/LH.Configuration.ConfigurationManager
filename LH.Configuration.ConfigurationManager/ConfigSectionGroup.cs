@@ -3,7 +3,7 @@
 namespace LH.Configuration
 {
     /// <summary>
-    /// 配置容器。
+    /// 配置组。
     /// </summary>
     public sealed class ConfigSectionGroup
     {
@@ -12,12 +12,12 @@ namespace LH.Configuration
         private readonly ConfigSectionSet _sections;
 
         /// <summary>
-        /// 包含的配置容器集合。
+        /// 获取配置组集合。
         /// </summary>
         public ConfigSectionGroupSet Groups => _groups;
 
         /// <summary>
-        /// 包含的配置属性集合。
+        /// 获取配置容器集合。
         /// </summary>
         public ConfigSectionSet Sections => _sections;
 

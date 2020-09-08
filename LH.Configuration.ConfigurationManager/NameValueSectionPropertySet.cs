@@ -73,7 +73,7 @@ namespace LH.Configuration
                 {
                     _contents[key].Remove();
                     _contents.Remove(key);
-                    if (!(_savable is null) && _savable.AutoSave)
+                    if (_savable.AutoSave)
                     {
                         _savable.Save();
                     }
@@ -96,7 +96,7 @@ namespace LH.Configuration
                     _contents.Add(key, content);
                     _superior.Add(content);
                 }
-                if (!(_savable is null) && _savable.AutoSave)
+                if (_savable.AutoSave)
                 {
                     _savable.Save();
                 }
@@ -116,7 +116,7 @@ namespace LH.Configuration
                 {
                     _contents[key].Remove();
                     _contents.Remove(key);
-                    if (!(_savable is null) && _savable.AutoSave)
+                    if (_savable.AutoSave)
                     {
                         _savable.Save();
                     }
@@ -138,7 +138,7 @@ namespace LH.Configuration
                     _contents.Add(key, content);
                     _superior.Add(content);
                 }
-                if (!(_savable is null) && _savable.AutoSave)
+                if (_savable.AutoSave)
                 {
                     _savable.Save();
                 }
@@ -158,7 +158,7 @@ namespace LH.Configuration
                 {
                     _contents[key].Remove();
                     _contents.Remove(key);
-                    if (!(_savable is null) && _savable.AutoSave)
+                    if (_savable.AutoSave)
                     {
                         _savable.Save();
                     }
@@ -182,7 +182,7 @@ namespace LH.Configuration
                     _contents.Add(key, content);
                     _superior.Add(content);
                 }
-                if (!(_savable is null) && _savable.AutoSave)
+                if (_savable.AutoSave)
                 {
                     _savable.Save();
                 }
@@ -197,7 +197,7 @@ namespace LH.Configuration
             _values.Clear();
             _contents.Clear();
             _superior.RemoveNodes();
-            if (!(_savable is null) && _savable.AutoSave)
+            if (_savable.AutoSave)
             {
                 _savable.Save();
             }
@@ -238,7 +238,7 @@ namespace LH.Configuration
             {
                 _contents[key].Remove();
                 _contents.Remove(key);
-                if (!(_savable is null) && _savable.AutoSave)
+                if (_savable.AutoSave)
                 {
                     _savable.Save();
                 }
@@ -279,11 +279,6 @@ namespace LH.Configuration
                 value = null;
                 return false;
             }
-        }
-
-        internal IDictionary<string, string> GetInternalValues()
-        {
-            return _values;
         }
     }
 }

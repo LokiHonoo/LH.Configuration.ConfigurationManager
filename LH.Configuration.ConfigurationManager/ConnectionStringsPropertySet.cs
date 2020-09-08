@@ -7,7 +7,7 @@ using System.Xml.Linq;
 namespace LH.Configuration
 {
     /// <summary>
-    /// 配置属性集合。
+    /// 连接属性集合。
     /// </summary>
     public sealed class ConnectionStringsPropertySet : IEnumerable
     {
@@ -17,24 +17,24 @@ namespace LH.Configuration
         private readonly IDictionary<string, ConnectionStringsValue> _values = new Dictionary<string, ConnectionStringsValue>();
 
         /// <summary>
-        /// 获取配置属性集合中包含的元素数。
+        /// 获取连接属性集合中包含的元素数。
         /// </summary>
         public int Count => _values.Count;
 
         /// <summary>
-        /// 获取配置属性集合的名称的集合。
+        /// 获取连接属性集合的名称的集合。
         /// </summary>
         public ICollection<string> Names => _values.Keys;
 
         /// <summary>
-        /// 获取配置属性集合的值的集合。
+        /// 获取连接属性集合的值的集合。
         /// </summary>
         public ICollection<ConnectionStringsValue> Values => _values.Values;
 
         /// <summary>
-        /// 获取或设置具有指定名称的配置属性的值。直接赋值等同于 AddOrUpdate 方法。
+        /// 获取或设置具有指定名称的连接属性的值。直接赋值等同于 AddOrUpdate 方法。
         /// </summary>
-        /// <param name="name">配置属性的名称。</param>
+        /// <param name="name">连接属性的名称。</param>
         /// <returns></returns>
         public ConnectionStringsValue this[string name]
         {
@@ -63,10 +63,10 @@ namespace LH.Configuration
         #endregion Constructor
 
         /// <summary>
-        /// 添加或更新一个配置属性。
+        /// 添加或更新一个连接属性。
         /// </summary>
-        /// <param name="name">配置属性的名称。</param>
-        /// <param name="value">配置属性的值。</param>
+        /// <param name="name">连接属性的名称。</param>
+        /// <param name="value">连接属性的值。</param>
         public void AddOrUpdate(string name, ConnectionStringsValue value)
         {
             if (value is null)
@@ -80,9 +80,9 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 添加或更新一个配置属性。
+        /// 添加或更新一个连接属性。
         /// </summary>
-        /// <param name="name">配置属性的名称。</param>
+        /// <param name="name">连接属性的名称。</param>
         /// <param name="connection">数据库连接实例。</param>
         public void AddOrUpdate(string name, DbConnection connection)
         {
@@ -97,9 +97,9 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 添加或更新一个配置属性。
+        /// 添加或更新一个连接属性。
         /// </summary>
-        /// <param name="name">配置属性的名称。</param>
+        /// <param name="name">连接属性的名称。</param>
         /// <param name="connectionString">连接字符串。</param>
         /// <param name="providerName">数据库引擎的文本名称。</param>
         public void AddOrUpdate(string name, string connectionString, string providerName)
@@ -148,7 +148,7 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 从配置属性集合中移除所有配置属性。
+        /// 从连接属性集合中移除所有连接属性。
         /// </summary>
         public void Clear()
         {
@@ -162,9 +162,9 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 确定配置属性集合是否包含带有指定名称的配置属性。
+        /// 确定连接属性集合是否包含带有指定名称的连接属性。
         /// </summary>
-        /// <param name="name">配置属性的名称。</param>
+        /// <param name="name">连接属性的名称。</param>
         /// <returns></returns>
         public bool ContainsName(string name)
         {
@@ -186,9 +186,9 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 从配置属性集合中移除带有指定名称的配置属性。
+        /// 从连接属性集合中移除带有指定名称的连接属性。
         /// </summary>
-        /// <param name="name">配置属性的名称。</param>
+        /// <param name="name">连接属性的名称。</param>
         /// <returns></returns>
         public bool Remove(string name)
         {
@@ -209,10 +209,10 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 获取与指定名称关联的配置属性的值。
+        /// 获取与指定名称关联的连接属性的值。
         /// </summary>
-        /// <param name="name">配置属性的名称。</param>
-        /// <param name="value">配置属性的值。</param>
+        /// <param name="name">连接属性的名称。</param>
+        /// <param name="value">连接属性的值。</param>
         /// <returns></returns>
         public bool TryGetValue(string name, out ConnectionStringsValue value)
         {
@@ -220,10 +220,10 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 获取与指定名称关联的配置属性的值。如果配置属性中没有数据库引擎参数，将引发异常。
+        /// 获取与指定名称关联的连接属性的值。如果连接属性中没有数据库引擎参数，将引发异常。
         /// </summary>
-        /// <param name="name">配置属性的名称。</param>
-        /// <param name="connection">配置属性的值。</param>
+        /// <param name="name">连接属性的名称。</param>
+        /// <param name="connection">连接属性的值。</param>
         /// <returns></returns>
         public bool TryGetValue(string name, out DbConnection connection)
         {
@@ -240,9 +240,9 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 获取与指定名称关联的配置属性的值。
+        /// 获取与指定名称关联的连接属性的值。
         /// </summary>
-        /// <param name="name">配置属性的名称。</param>
+        /// <param name="name">连接属性的名称。</param>
         /// <param name="connectionString">连接字符串。</param>
         /// <param name="providerName">数据库引擎的文本名称。</param>
         /// <returns></returns>

@@ -11,7 +11,7 @@ namespace LH.Configuration
         private readonly ConnectionStringsPropertySet _properties;
 
         /// <summary>
-        /// 包含的配置属性集合。
+        /// 包含的连接属性集合。
         /// </summary>
         public ConnectionStringsPropertySet Properties => _properties;
 

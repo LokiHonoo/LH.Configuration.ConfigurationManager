@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace LH.Configuration
 {
     /// <summary>
-    /// 配置属性。
+    /// 配置容器。
     /// </summary>
     public sealed class SingleTagSection : ConfigSection
     {
@@ -13,27 +11,11 @@ namespace LH.Configuration
         private readonly SingleTagSectionPropertySet _properties;
 
         /// <summary>
-        /// 包含的配置属性集合。
+        /// 获取配置属性集合。
         /// </summary>
         public SingleTagSectionPropertySet Properties => _properties;
 
         #region Constructor
-
-        /// <summary>
-        /// 创建 SingleTagSection 的新实例。
-        /// </summary>
-        /// <param name="value">配置属性的值。</param>
-        public SingleTagSection(StringDictionary value) : base("System.Configuration.SingleTagSectionHandler")
-        {
-            if (value is null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-            XElement content = new XElement("newSection");
-            XValueHelper.SetSingleTagSection(value, content);
-            _properties = new SingleTagSectionPropertySet(content, null);
-            _content = content;
-        }
 
         internal SingleTagSection(XElement content, ISavable savable) : base("System.Configuration.SingleTagSectionHandler")
         {

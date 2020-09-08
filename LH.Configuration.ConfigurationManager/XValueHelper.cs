@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Globalization;
 using System.Xml.Linq;
 
@@ -46,21 +43,6 @@ namespace LH.Configuration
             }
         }
 
-        internal static void SetDictionarySection(IDictionary<string, object> value, XElement content)
-        {
-            content.RemoveNodes();
-            content.RemoveAttributes();
-            if (value.Count > 0)
-            {
-                foreach (KeyValuePair<string, object> item in value)
-                {
-                    XElement prop = new XElement("add", new XAttribute("key", item.Key));
-                    SetDictionarySectionValue(item.Value, prop);
-                    content.Add(prop);
-                }
-            }
-        }
-
         internal static void SetDictionarySectionValue(object value, XElement content)
         {
             switch (value)
@@ -89,58 +71,6 @@ namespace LH.Configuration
                 default: throw new NotSupportedException();
             }
             content.SetAttributeValue("type", value.GetType().FullName);
-        }
-
-        internal static void SetNameValueSection(NameValueCollection value, XElement content)
-        {
-            content.RemoveNodes();
-            content.RemoveAttributes();
-            if (value.Count > 0)
-            {
-                for (int i = 0; i < value.Count; i++)
-                {
-                    content.Add(new XElement("add", new XAttribute("key", value.GetKey(i)), new XAttribute("value", value.Get(i))));
-                }
-            }
-        }
-
-        internal static void SetNameValueSection(IDictionary<string, string> value, XElement content)
-        {
-            content.RemoveNodes();
-            content.RemoveAttributes();
-            if (value.Count > 0)
-            {
-                foreach (KeyValuePair<string, string> item in value)
-                {
-                    content.Add(new XElement("add", new XAttribute("key", item.Key), new XAttribute("value", item.Value)));
-                }
-            }
-        }
-
-        internal static void SetSingleTagSection(StringDictionary value, XElement content)
-        {
-            content.RemoveNodes();
-            content.RemoveAttributes();
-            if (value.Count > 0)
-            {
-                foreach (DictionaryEntry item in value)
-                {
-                    content.Add(new XAttribute((string)item.Key, (string)item.Value));
-                }
-            }
-        }
-
-        internal static void SetSingleTagSection(IDictionary<string, string> value, XElement content)
-        {
-            content.RemoveNodes();
-            content.RemoveAttributes();
-            if (value.Count > 0)
-            {
-                foreach (KeyValuePair<string, string> item in value)
-                {
-                    content.Add(new XAttribute(item.Key, item.Value));
-                }
-            }
         }
 
         private static byte[] GetHexBytes(string hex)

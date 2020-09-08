@@ -5,7 +5,7 @@ using System.Xml.Linq;
 namespace LH.Configuration
 {
     /// <summary>
-    ///  配置容器集合。
+    ///  配置组集合。
     /// </summary>
     public sealed class ConfigSectionGroupSet : IEnumerable
     {
@@ -17,24 +17,24 @@ namespace LH.Configuration
         private readonly ISavable _savable;
 
         /// <summary>
-        /// 获取配置容器集合中包含的元素数。
+        /// 获取配置组集合中包含的元素数。
         /// </summary>
         public int Count => _groups.Count;
 
         /// <summary>
-        /// 获取配置容器集合的名称的集合。
+        /// 获取配置组集合的名称的集合。
         /// </summary>
         public ICollection<string> Names => _groups.Keys;
 
         /// <summary>
-        /// 获取配置容器集合的值的集合。
+        /// 获取配置组集合。
         /// </summary>
         public ICollection<ConfigSectionGroup> Values => _groups.Values;
 
         /// <summary>
-        /// 获取具有指定名称的配置容器的值。
+        /// 获取具有指定名称的配置组的值。
         /// </summary>
-        /// <param name="name">配置容器的名称。</param>
+        /// <param name="name">配置组的名称。</param>
         /// <returns></returns>
         public ConfigSectionGroup this[string name] => _groups.ContainsKey(name) ? _groups[name] : null;
 
@@ -62,7 +62,7 @@ namespace LH.Configuration
         #endregion Constructor
 
         /// <summary>
-        /// 从配置容器集合中移除所有配置容器。
+        /// 从配置组集合中移除所有配置组。
         /// </summary>
         public void Clear()
         {
@@ -78,9 +78,9 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 确定配置容器集合是否包含带有指定名称的配置容器。
+        /// 确定配置组集合是否包含带有指定名称的配置组。
         /// </summary>
-        /// <param name="name">配置容器的名称。</param>
+        /// <param name="name">配置组的名称。</param>
         /// <returns></returns>
         public bool ContainsName(string name)
         {
@@ -102,9 +102,9 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 获取与指定名称关联的配置容器的值。如果不存在，添加一个配置容器并返回值。
+        /// 获取与指定名称关联的配置组的值。如果不存在，添加一个配置组并返回值。
         /// </summary>
-        /// <param name="name">配置容器的名称。</param>
+        /// <param name="name">配置组的名称。</param>
         public ConfigSectionGroup GetOrAdd(string name)
         {
             if (_groups.ContainsKey(name))
@@ -131,9 +131,9 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 从配置容器集合中移除带有指定名称的配置容器。
+        /// 从配置组集合中移除带有指定名称的配置组。
         /// </summary>
-        /// <param name="name">配置容器的名称。</param>
+        /// <param name="name">配置组的名称。</param>
         /// <returns></returns>
         public bool Remove(string name)
         {
@@ -156,10 +156,10 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 获取与指定名称关联的配置容器的值。
+        /// 获取与指定名称关联的配置组的值。
         /// </summary>
-        /// <param name="name">配置容器的名称。</param>
-        /// <param name="value">配置容器的值。</param>
+        /// <param name="name">配置组的名称。</param>
+        /// <param name="value">配置组的值。</param>
         /// <returns></returns>
         public bool TryGetValue(string name, out ConfigSectionGroup value)
         {

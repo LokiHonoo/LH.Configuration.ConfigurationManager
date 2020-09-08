@@ -11,7 +11,7 @@ namespace LH.Configuration
         private readonly AppSettingsPropertySet _properties;
 
         /// <summary>
-        /// 包含的配置数据属性集合。
+        /// 获取配置属性集合。
         /// </summary>
         public AppSettingsPropertySet Properties => _properties;
 

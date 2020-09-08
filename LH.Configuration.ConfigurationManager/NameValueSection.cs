@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace LH.Configuration
 {
     /// <summary>
-    /// 配置属性。
+    /// 配置容器。
     /// </summary>
     public sealed class NameValueSection : ConfigSection
     {
@@ -13,27 +11,11 @@ namespace LH.Configuration
         private readonly NameValueSectionPropertySet _properties;
 
         /// <summary>
-        /// 包含的配置属性集合。
+        /// 获取配置属性集合。
         /// </summary>
         public NameValueSectionPropertySet Properties => _properties;
 
         #region Constructor
-
-        /// <summary>
-        /// 创建 NameValueSection 的新实例。
-        /// </summary>
-        /// <param name="value">配置属性的值。</param>
-        public NameValueSection(NameValueCollection value) : base("System.Configuration.NameValueSectionHandler")
-        {
-            if (value is null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-            XElement content = new XElement("newSection");
-            XValueHelper.SetNameValueSection(value, content);
-            _properties = new NameValueSectionPropertySet(content, null);
-            _content = content;
-        }
 
         internal NameValueSection(XElement content, ISavable savable) : base("System.Configuration.NameValueSectionHandler")
         {

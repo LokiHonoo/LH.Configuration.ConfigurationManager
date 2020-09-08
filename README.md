@@ -189,59 +189,36 @@ public static void Create()
     {
         //
         // 支持三种标准类型的创建
-        // System.Configuration.SingleTagSectionHandler，输入值类型是 StringDictionary
-        // System.Configuration.NameValueSectionHandler，输入值类型是 NameValueCollection
-        // System.Configuration.DictionarySectionHandler，输入值类型是 IDictionary<string, object>
+        // System.Configuration.SingleTagSectionHandler
+        // System.Configuration.NameValueSectionHandler
+        // System.Configuration.DictionarySectionHandler
         //
-        var props1 = new StringDictionary
-        {
-            { "section_prop1", Common.Random.NextDouble().ToString() },
-            { "section_prop2", Common.Random.NextDouble().ToString() },
-            { "section_prop3", Common.Random.NextDouble().ToString() }
-        };
-        var props2 = new NameValueCollection
-        {
-            { "section_prop1", Common.Random.NextDouble().ToString() },
-            { "section_prop2", Common.Random.NextDouble().ToString() },
-            { "section_prop3", Common.Random.NextDouble().ToString() }
-        };
-        var props3 = new Dictionary<string, object>
-        {
-            { "section_prop1", true },
-            { "section_prop2", sbyte.MaxValue },
-            { "section_prop3", byte.MaxValue },
-            { "section_prop4", short.MaxValue },
-            { "section_prop5", ushort.MaxValue },
-            { "section_prop6", int.MaxValue },
-            { "section_prop7", uint.MaxValue },
-            { "section_prop8", long.MaxValue },
-            { "section_prop9", ulong.MaxValue },
-            { "section_prop10", float.MaxValue / 2 }, // 防止 NET40 浮点数精度问题导致的溢出
-            { "section_prop11", double.MaxValue / 2 }, // 防止 NET40 浮点数精度问题导致的溢出
-            { "section_prop12", decimal.MaxValue },
-            { "section_prop13", (char)Common.Random.Next(65, 91) },
-            { "section_prop14", new byte[] { 0x01, 0x01, 0x0A, 0x0B, 0x0C } },
-            { "section_prop15", "支持 15 种单值类型" }
-        };
+        // 直接赋值等同于 AddOrUpdate 方法
         //
-        // 直接赋值等同于 AddOrUpdate 方法。添加为配置属性或集合的副本。
+        SingleTagSection section1 = (SingleTagSection)manager.ConfigSections.Sections.GetOrAdd("section1", ConfigSectionType.SingleTagSectionHandler);
+        section1.Properties.AddOrUpdate("section_prop1", Common.Random.NextDouble().ToString());
+        section1.Properties["section_prop2"] = Common.Random.NextDouble().ToString();
+        NameValueSection section2 = (NameValueSection)manager.ConfigSections.Sections.GetOrAdd("section2", ConfigSectionType.NameValueSectionHandler);
+        section2.Properties.AddOrUpdate("section_prop1", Common.Random.NextDouble().ToString());
+        section2.Properties["section_prop2"] = Common.Random.NextDouble().ToString();
         //
-        manager.ConfigSections.Sections.AddOrUpdate("section1", ConfigSection.Create(props1));
-        manager.ConfigSections.Sections.AddOrUpdate("section2", props2);
         ConfigSectionGroup group = manager.ConfigSections.Groups.GetOrAdd("sectionGroup1");
-        group.Sections.AddOrUpdate("section3", props3);
-        manager.ConfigSections.Sections["section4"] = ConfigSection.Create(props1);
-        //
-        // 可修改集合
-        //
-        DictionarySectionPropertySet props = ((DictionarySection)group.Sections["section3"]).Properties;
-        props.AddOrUpdate("section_prop15_1", "强类型存储");
-        //
-        // 移除属性的方法
-        //
-        manager.ConfigSections.Sections.AddOrUpdate("section4", (ConfigSection)null);
-        manager.ConfigSections.Sections["section4"] = null;
-        manager.ConfigSections.Sections.Remove("section4");
+        DictionarySection section3 = (DictionarySection)group.Sections.GetOrAdd("section3", ConfigSectionType.DictionarySectionHandler);
+        section3.Properties.AddOrUpdate("section_prop1", true);
+        section3.Properties.AddOrUpdate("section_prop2", sbyte.MaxValue);
+        section3.Properties.AddOrUpdate("section_prop3", byte.MaxValue);
+        section3.Properties.AddOrUpdate("section_prop4", short.MaxValue);
+        section3.Properties.AddOrUpdate("section_prop5", ushort.MaxValue);
+        section3.Properties.AddOrUpdate("section_prop6", int.MaxValue);
+        section3.Properties.AddOrUpdate("section_prop7", uint.MaxValue);
+        section3.Properties["section_prop8"] = long.MaxValue;
+        section3.Properties["section_prop9"] = ulong.MaxValue;
+        section3.Properties["section_prop10"] = float.MaxValue / 2; // 防止 NET40 浮点数精度问题导致的溢出
+        section3.Properties["section_prop11"] = double.MaxValue / 2; // 防止 NET40 浮点数精度问题导致的溢出
+        section3.Properties["section_prop12"] = decimal.MaxValue;
+        section3.Properties["section_prop13"] = (char)Common.Random.Next(65, 91);
+        section3.Properties["section_prop14"] = new byte[] { 0x01, 0x02, 0x03, 0x0A, 0x0B, 0x0C };
+        section3.Properties["section_prop15"] = "支持 15 种单值类型";
         //
         // 保存到创建实例时指定的文件
         //
@@ -261,26 +238,26 @@ public static string Load()
         //
         // 取出属性
         //
-        if (manager.ConfigSections.Sections.TryGetValue("section1", out ConfigSection section))
+        if (manager.ConfigSections.Sections.TryGetValue("section1", out SingleTagSection section1))
         {
-            foreach (KeyValuePair<string, string> prop in ((SingleTagSection)section).Properties)
+            foreach (KeyValuePair<string, string> prop in section1.Properties)
             {
                 result.AppendLine(prop.Value);
             }
         }
-        if (manager.ConfigSections.Sections.TryGetValue("section2", out section))
+        if (manager.ConfigSections.Sections.TryGetValue("section2", out NameValueSection section2))
         {
-            foreach (KeyValuePair<string, string> prop in ((NameValueSection)section).Properties)
+            foreach (KeyValuePair<string, string> prop in section2.Properties)
             {
                 result.AppendLine(prop.Value);
             }
         }
         if (manager.ConfigSections.Groups.TryGetValue("sectionGroup1", out ConfigSectionGroup group))
         {
-            if (group.Sections.TryGetValue("section3", out section))
+            if (group.Sections.TryGetValue("section3", out DictionarySection section3))
             {
                 // 根据 type 参数返回强类型值。如果没有 type 参数，以 string 类型处理。
-                foreach (KeyValuePair<string, object> prop in ((DictionarySection)section).Properties)
+                foreach (KeyValuePair<string, object> prop in section3.Properties)
                 {
                     result.AppendLine($"{prop.Value.GetType().Name,-10}{prop.Value}");
                 }
@@ -289,10 +266,10 @@ public static string Load()
         //
         // 如果是自定义格式，可取出 xml 文本处理。
         //
-        if (manager.ConfigSections.Sections.TryGetValue("section4", out section))
+        if (manager.ConfigSections.Sections.TryGetValue("section4", out CustumSection section4))
         {
-            var typeName = section.TypeName;
-            var xml = ((CustumSection)section).XmlString;
+            var typeName = section4.TypeName;
+            var xml = section4.XmlString;
         }
     }
     return result.ToString();
@@ -321,7 +298,7 @@ public static async void Test()
 {
     using (var read = await storageFile.OpenStreamForReadAsync())
     {
-        using (ConfigurationManager manager = new ConfigurationManager(read)
+        using (ConfigurationManager manager = new ConfigurationManager(read))
         {
             using (var write = await storageFile.OpenStreamForWriteAsync())
             {

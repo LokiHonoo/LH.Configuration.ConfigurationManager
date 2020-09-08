@@ -12,12 +12,12 @@ namespace LH.Configuration
         private readonly ConfigSectionSet _sections;
 
         /// <summary>
-        /// 包含的配置容器集合。
+        /// 包含的配置组集合。
         /// </summary>
         public ConfigSectionGroupSet Groups => _groups;
 
         /// <summary>
-        /// 包含的配置属性集合。
+        /// 包含的配置容器集合。
         /// </summary>
         public ConfigSectionSet Sections => _sections;
 

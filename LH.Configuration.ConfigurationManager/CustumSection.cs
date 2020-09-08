@@ -3,7 +3,7 @@
 namespace LH.Configuration
 {
     /// <summary>
-    /// 配置属性。
+    /// 配置容器。
     /// </summary>
     public sealed class CustumSection : ConfigSection
     {

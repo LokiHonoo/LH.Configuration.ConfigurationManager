@@ -20,7 +20,7 @@ Limited read/write support for appSettings, connectionStrings, configSections no
     <AssemblyName>LH.Configuration.ConfigurationManager</AssemblyName>
     <RootNamespace>LH.Configuration</RootNamespace>
     <PackageIcon>LH.Logo_32x32-32.png</PackageIcon>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">

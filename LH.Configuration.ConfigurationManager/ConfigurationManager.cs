@@ -39,7 +39,7 @@ namespace LH.Configuration
         public bool AutoSave { get => _autoSave; set => _autoSave = value; }
 
         /// <summary>
-        /// 映射到标准格式的 "configSections" 节点。忽略 extensionSettings 描述。
+        /// 映射到标准格式的 "configSections" 节点。
         /// </summary>
         public ConfigSections ConfigSections
         {
