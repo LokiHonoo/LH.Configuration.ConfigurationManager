@@ -49,7 +49,8 @@ public static void Create()
     //
     // 使用 .NET 程序的默认配置文件
     //
-    using (ConfigurationManager manager = new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config"))
+    string filePath = Assembly.GetEntryAssembly().Location + ".config";
+    using (ConfigurationManager manager = new ConfigurationManager(filePath))
     {
         //
         // 直接赋值等同于 AddOrUpdate 方法
@@ -76,7 +77,8 @@ public static string Load()
     //
     // 使用 .NET 程序的默认配置文件
     //
-    using (ConfigurationManager manager = new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config"))
+    string filePath = Assembly.GetEntryAssembly().Location + ".config";
+    using (ConfigurationManager manager = new ConfigurationManager(filePath))
     {
         //
         // 取出属性
@@ -102,7 +104,8 @@ public static void Create()
     //
     // 使用 .NET 程序的默认配置文件
     //
-    using (ConfigurationManager manager = new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config"))
+    string filePath = Assembly.GetEntryAssembly().Location + ".config";
+    using (ConfigurationManager manager = new ConfigurationManager(filePath))
     {
         SqlConnectionStringBuilder builder1 = new SqlConnectionStringBuilder()
         {
@@ -149,7 +152,8 @@ public static string Load()
     //
     // 使用 .NET 程序的默认配置文件
     //
-    using (ConfigurationManager manager = new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config"))
+    string filePath = Assembly.GetEntryAssembly().Location + ".config";
+    using (ConfigurationManager manager = new ConfigurationManager(filePath))
     {
         //
         // 取出属性
@@ -180,7 +184,8 @@ public static void Create()
     //
     // 使用 .NET 程序的默认配置文件
     //
-    using (ConfigurationManager manager = new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config"))
+    string filePath = Assembly.GetEntryAssembly().Location + ".config";
+    using (ConfigurationManager manager = new ConfigurationManager(filePath))
     {
         //
         // 支持三种标准类型的创建
@@ -250,7 +255,8 @@ public static string Load()
     //
     // 使用 .NET 程序的默认配置文件
     //
-    using (ConfigurationManager manager = new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config"))
+    string filePath = Assembly.GetEntryAssembly().Location + ".config";
+    using (ConfigurationManager manager = new ConfigurationManager(filePath))
     {
         //
         // 取出属性
