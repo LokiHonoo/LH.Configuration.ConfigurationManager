@@ -109,37 +109,39 @@ namespace LH.Configuration
             switch (providerName)
             {
                 case "System.Data.Odbc":
-#if NETSTANDARD2_0
-                    typeName = "System.Data.Odbc.OdbcConnection, System.Data.Odbc";
-#else
+#if NET40
                     typeName = "System.Data.Odbc.OdbcConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
+#else
+                    typeName = "System.Data.Odbc.OdbcConnection, System.Data.Odbc";
 #endif
                     break;
 
                 case "System.Data.OleDb":
-#if NETSTANDARD2_0
-                    typeName = "System.Data.OleDb.OleDbConnection, System.Data.OleDb";
-#else
+#if NET40
                     typeName = "System.Data.OleDb.OleDbConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
+#else
+                    typeName = "System.Data.OleDb.OleDbConnection, System.Data.OleDb";
 #endif
                     break;
 
                 case "System.Data.SqlClient":
-#if NETSTANDARD2_0
-                    typeName = "System.Data.SqlClient.SqlConnection, System.Data.SqlClient";
-#else
+#if NET40
                     typeName = "System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
+#else
+                    typeName = "System.Data.SqlClient.SqlConnection, System.Data.SqlClient";
 #endif
                     break;
 
                 case "System.Data.SqlServerCe": typeName = "System.Data.SqlServerCe.SqlCeConnection, System.Data.SqlServerCe"; break;
-                case "Microsoft.SqlServerCe.Client": typeName = "Microsoft.SqlServerCe.Client.SqlCeConnection, Microsoft.SqlServerCe.Client"; break;
                 case "System.Data.EntityClient": typeName = "System.Data.EntityClient.EntityConnection, System.Data.EntityClient"; break;
+                case "System.Data.OracleClient": typeName = "System.Data.OracleClient.OracleConnection, System.Data.OracleClient"; break;
+                case "System.Data.SQLite": typeName = "System.Data.SQLite.SQLiteConnection, System.Data.SQLite"; break;
+                case "Microsoft.Data.SqlClient": typeName = "Microsoft.Data.SqlClient.SqlConnection, Microsoft.Data.SqlClient"; break;
+                case "Microsoft.SqlServerCe.Client": typeName = "Microsoft.SqlServerCe.Client.SqlCeConnection, Microsoft.SqlServerCe.Client"; break;
+                case "Microsoft.Data.Sqlite": typeName = "Microsoft.Data.Sqlite.SqliteConnection, Microsoft.Data.Sqlite"; break;
+                case "Oracle.DataAccess.Client": typeName = "Oracle.DataAccess.Client.OracleConnection, Oracle.DataAccess.Client"; break;
                 case "MySql.Data.MySqlClient": typeName = "MySql.Data.MySqlClient.MySqlConnection, MySql.Data.MySqlClient"; break;
                 case "MySqlConnector": typeName = "MySqlConnector.MySqlConnection, MySqlConnector"; break;
-                case "System.Data.OracleClient": typeName = "System.Data.OracleClient.OracleConnection, System.Data.OracleClient"; break;
-                case "Oracle.DataAccess.Client": typeName = "Oracle.DataAccess.Client.OracleConnection, Oracle.DataAccess.Client"; break;
-                case "System.Data.SQLite": typeName = "System.Data.SQLite.SQLiteConnection, System.Data.SQLite"; break;
                 default: typeName = providerName; break;
             }
             return (DbConnection)Activator.CreateInstance(Type.GetType(typeName), connectionString);
