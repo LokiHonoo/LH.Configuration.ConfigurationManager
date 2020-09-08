@@ -29,7 +29,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="value">配置属性的值。</param>
         /// <returns></returns>
-        public static DictionarySection CreateDictionarySection(IDictionary<string, object> value)
+        public static DictionarySection Create(IDictionary<string, object> value)
         {
             return new DictionarySection(value);
         }
@@ -39,7 +39,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="value">配置属性的值。</param>
         /// <returns></returns>
-        public static NameValueSection CreateNameValueSection(NameValueCollection value)
+        public static NameValueSection Create(NameValueCollection value)
         {
             return new NameValueSection(value);
         }
@@ -49,7 +49,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="value">配置属性的值。</param>
         /// <returns></returns>
-        public static SingleTagSection CreateSingleTagSection(StringDictionary value)
+        public static SingleTagSection Create(StringDictionary value)
         {
             return new SingleTagSection(value);
         }

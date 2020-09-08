@@ -58,11 +58,11 @@ namespace Middleware
                 //
                 // 直接赋值等同于 AddOrUpdate 方法。添加为配置属性或集合的副本。
                 //
-                manager.ConfigSections.Sections.AddOrUpdate("section1", ConfigSection.CreateSingleTagSection(props1));
+                manager.ConfigSections.Sections.AddOrUpdate("section1", ConfigSection.Create(props1));
                 manager.ConfigSections.Sections.AddOrUpdate("section2", props2);
                 ConfigSectionGroup group = manager.ConfigSections.Groups.GetOrAdd("sectionGroup1");
                 group.Sections.AddOrUpdate("section3", props3);
-                manager.ConfigSections.Sections["section4"] = ConfigSection.CreateSingleTagSection(props1);
+                manager.ConfigSections.Sections["section4"] = ConfigSection.Create(props1);
                 //
                 // 可修改集合
                 //
@@ -95,6 +95,7 @@ namespace Middleware
                 //
                 if (manager.ConfigSections.Sections.TryGetValue("section1", out ConfigSection section))
                 {
+                   
                     foreach (KeyValuePair<string, string> prop in ((SingleTagSection)section).Properties)
                     {
                         result.AppendLine(prop.Value);
