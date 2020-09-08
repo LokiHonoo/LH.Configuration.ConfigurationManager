@@ -16,7 +16,7 @@ Limited read/write support for appSettings, connectionStrings, configSections no
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/LokiHonoo/LH.Configuration.ConfigurationManager</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
-    <PackageTags>LH Configuration ConfigurationManager net4 net40 netcore uwp</PackageTags>
+    <PackageTags>LH Configuration ConfigurationManager net4 net40 netstandard uwp</PackageTags>
     <AssemblyName>LH.Configuration.ConfigurationManager</AssemblyName>
     <RootNamespace>LH.Configuration</RootNamespace>
     <PackageIcon>LH.Logo_32x32-32.png</PackageIcon>
