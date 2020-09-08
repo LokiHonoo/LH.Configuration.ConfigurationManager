@@ -14,7 +14,8 @@ namespace Middleware
             //
             // 使用 .NET 程序的默认配置文件
             //
-            using (ConfigurationManager manager = new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config"))
+            string filePath = Assembly.GetEntryAssembly().Location + ".config";
+            using (ConfigurationManager manager = new ConfigurationManager(filePath))
             {
                 //
                 // 直接赋值等同于 AddOrUpdate 方法
@@ -41,7 +42,8 @@ namespace Middleware
             //
             // 使用 .NET 程序的默认配置文件
             //
-            using (ConfigurationManager manager = new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config"))
+            string filePath = Assembly.GetEntryAssembly().Location + ".config";
+            using (ConfigurationManager manager = new ConfigurationManager(filePath))
             {
                 //
                 // 取出属性
