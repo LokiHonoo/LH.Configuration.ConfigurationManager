@@ -34,7 +34,7 @@ namespace LH.Configuration
         public ICollection<ConfigSection> Values => _values.Values;
 
         /// <summary>
-        /// 获取或设置具有指定名称的配置属性的值。直接赋值等同于 AddOrUpdate 方法。添加为配置属性的副本。
+        /// 获取或设置具有指定名称的配置属性的值。直接赋值等同于 AddOrUpdate 方法。添加为值的副本。
         /// </summary>
         /// <param name="name">配置属性的名称。</param>
         /// <returns></returns>
@@ -134,7 +134,7 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 添加或更新一个配置属性。添加为集合的副本。
+        /// 添加或更新一个配置属性。添加为值的副本。
         /// </summary>
         /// <param name="name">配置属性的名称。</param>
         /// <param name="value">配置属性的值。</param>
@@ -187,7 +187,7 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 添加或更新一个配置属性。添加为集合的副本。
+        /// 添加或更新一个配置属性。添加为值的副本。
         /// </summary>
         /// <param name="name">配置属性的名称。</param>
         /// <param name="value">配置属性的值。</param>
@@ -240,7 +240,7 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 添加或更新一个配置属性。添加为集合的副本。
+        /// 添加或更新一个配置属性。添加为值的副本。
         /// </summary>
         /// <param name="name">配置属性的名称。</param>
         /// <param name="value">配置属性的值。</param>
