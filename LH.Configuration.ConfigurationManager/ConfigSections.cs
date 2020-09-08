@@ -37,11 +37,20 @@ namespace LH.Configuration
 
         #endregion Constructor
 
+        /// <summary>
+        /// 确定指定的对象是否等于当前对象。
+        /// </summary>
+        /// <param name="obj">要与当前对象进行比较的对象。</param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             return obj is ConfigSections other && _content.Equals(other._content);
         }
 
+        /// <summary>
+        /// 作为默认哈希函数。
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return _content.GetHashCode();

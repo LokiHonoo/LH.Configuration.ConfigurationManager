@@ -87,7 +87,7 @@ namespace LH.Configuration
         /// <summary>
         /// 创建 ConfigurationManager 的新实例。
         /// </summary>
-        /// <param name="filePath">指定配置文件的源流，从中读取配置。</param>
+        /// <param name="stream">指定配置文件的源流，从中读取配置。</param>
         public ConfigurationManager(Stream stream)
         {
             if (stream is null || stream.Length == 0)
@@ -120,11 +120,17 @@ namespace LH.Configuration
             _filePath = filePath;
         }
 
+        /// <summary>
+        /// 释放由 <see cref="ConfigurationManager"/> 使用的所有资源。
+        /// </summary>
         ~ConfigurationManager()
         {
             Dispose(false);
         }
 
+        /// <summary>
+        /// 释放由 <see cref="ConfigurationManager"/> 使用的所有资源。
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -154,11 +160,20 @@ namespace LH.Configuration
             return new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config");
         }
 
+        /// <summary>
+        /// 确定指定的对象是否等于当前对象。
+        /// </summary>
+        /// <param name="obj">要与当前对象进行比较的对象。</param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             return obj is ConfigurationManager other && _root.Equals(other._root);
         }
 
+        /// <summary>
+        /// 作为默认哈希函数。
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return _root.GetHashCode();
