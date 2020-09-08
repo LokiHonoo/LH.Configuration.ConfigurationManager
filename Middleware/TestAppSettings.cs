@@ -1,0 +1,59 @@
+﻿using LH.Configuration;
+using System.Reflection;
+using System.Text;
+
+namespace Middleware
+{
+    /// <summary>
+    /// 标准格式的 "appSettings" 节点。
+    /// </summary>
+    public static class TestAppSettings
+    {
+        public static void Create()
+        {
+            //
+            // 使用 .NET 程序的默认配置文件
+            //
+            using (ConfigurationManager manager = new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config"))
+            {
+                //
+                // 直接赋值等同于 AddOrUpdate 方法
+                //
+                manager.AppSettings.Propertys.AddOrUpdate("prop1", Common.Random.NextDouble().ToString());
+                manager.AppSettings.Propertys["prop2"] = Common.Random.NextDouble().ToString();
+                manager.AppSettings.Propertys["prop3"] = "等待移除";
+                //
+                // 移除属性的方法
+                //
+                manager.AppSettings.Propertys.AddOrUpdate("prop3", null);
+                manager.AppSettings.Propertys["prop3"] = null;
+                manager.AppSettings.Propertys.Remove("prop3");
+                //
+                // 保存到创建实例时指定的文件
+                //
+                manager.Save();
+            }
+        }
+
+        public static string Load()
+        {
+            StringBuilder result = new StringBuilder();
+            //
+            // 使用 .NET 程序的默认配置文件
+            //
+            using (ConfigurationManager manager = new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config"))
+            {
+                //
+                // 取出属性
+                //
+                if (manager.AppSettings.Propertys.TryGetValue("prop1", out string value))
+                {
+                    result.AppendLine(value);
+                }
+                value = manager.AppSettings.Propertys["prop2"];
+                result.AppendLine(value);
+            }
+            return result.ToString();
+        }
+    }
+}

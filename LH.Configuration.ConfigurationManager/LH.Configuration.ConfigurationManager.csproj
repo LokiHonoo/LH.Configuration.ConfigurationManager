@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
+    <Company>LH.Studio</Company>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Copyright>Copyright © LH.Studio 2020</Copyright>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>LH.Configuration.ConfigurationManager.snk</AssemblyOriginatorKeyFile>
+    <Authors>LH.Studio</Authors>
+    <Description>LH.Configuration.ConfigurationManager is a replacement for System.Configuration.ConfigurationManager.
+
+LH.Configuration.ConfigurationManager developing for read/write profiles in NET Framework 4.0.
+
+Limited read/write support for appSettings, connectionStrings, configSections nodes.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/LokiHonoo/LH.Configuration.ConfigurationManager</PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageTags>LH Configuration ConfigurationManager net4 net40 netcore uwp</PackageTags>
+    <AssemblyName>LH.Configuration.ConfigurationManager</AssemblyName>
+    <RootNamespace>LH.Configuration</RootNamespace>
+    <PackageIcon>LH.Logo_32x32-32.png</PackageIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">
+    <OutputPath>..\bin\Debug</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
+    <OutputPath>..\bin\Release</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <OutputPath>..\bin\Debug</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <OutputPath>..\bin\Release</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LH.Logo_32x32-32.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  
+</Project>
