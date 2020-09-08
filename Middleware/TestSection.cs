@@ -65,7 +65,7 @@ namespace Middleware
                 //
                 // 可修改集合
                 //
-                DictionarySectionPropertySet props = ((DictionarySection)group.Sections["section3"]).Propertys;
+                DictionarySectionPropertySet props = ((DictionarySection)group.Sections["section3"]).Properties;
                 props.AddOrUpdate("section_prop15_1", "强类型存储");
                 //
                 // 移除属性的方法
@@ -93,14 +93,14 @@ namespace Middleware
                 //
                 if (manager.ConfigSections.Sections.TryGetValue("section1", out ConfigSection section))
                 {
-                    foreach (KeyValuePair<string, string> prop in ((SingleTagSection)section).Propertys)
+                    foreach (KeyValuePair<string, string> prop in ((SingleTagSection)section).Properties)
                     {
                         result.AppendLine(prop.Value);
                     }
                 }
                 if (manager.ConfigSections.Sections.TryGetValue("section2", out section))
                 {
-                    foreach (KeyValuePair<string, string> prop in ((NameValueSection)section).Propertys)
+                    foreach (KeyValuePair<string, string> prop in ((NameValueSection)section).Properties)
                     {
                         result.AppendLine(prop.Value);
                     }
@@ -110,7 +110,7 @@ namespace Middleware
                     if (group.Sections.TryGetValue("section3", out section))
                     {
                         // 根据 type 参数返回强类型值。如果没有 type 参数，以 string 类型处理。
-                        foreach (KeyValuePair<string, object> prop in ((DictionarySection)section).Propertys)
+                        foreach (KeyValuePair<string, object> prop in ((DictionarySection)section).Properties)
                         {
                             result.AppendLine($"{prop.Value.GetType().Name,-10}{prop.Value}");
                         }

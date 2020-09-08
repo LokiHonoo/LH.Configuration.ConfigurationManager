@@ -10,12 +10,12 @@ namespace LH.Configuration
     public sealed class DictionarySection : ConfigSection
     {
         private readonly XElement _content;
-        private readonly DictionarySectionPropertySet _propertys;
+        private readonly DictionarySectionPropertySet _properties;
 
         /// <summary>
         /// 包含的配置属性集合。
         /// </summary>
-        public DictionarySectionPropertySet Propertys => _propertys;
+        public DictionarySectionPropertySet Properties => _properties;
 
         #region Constructor
 
@@ -31,13 +31,13 @@ namespace LH.Configuration
             }
             XElement content = new XElement("newSection");
             XValueHelper.SetDictionarySection(value, content);
-            _propertys = new DictionarySectionPropertySet(content, null);
+            _properties = new DictionarySectionPropertySet(content, null);
             _content = content;
         }
 
         internal DictionarySection(XElement content, ISavable savable) : base("System.Configuration.DictionarySectionHandler")
         {
-            _propertys = new DictionarySectionPropertySet(content, savable);
+            _properties = new DictionarySectionPropertySet(content, savable);
             _content = content;
         }
 

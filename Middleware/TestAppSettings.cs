@@ -19,15 +19,15 @@ namespace Middleware
                 //
                 // 直接赋值等同于 AddOrUpdate 方法
                 //
-                manager.AppSettings.Propertys.AddOrUpdate("prop1", Common.Random.NextDouble().ToString());
-                manager.AppSettings.Propertys["prop2"] = Common.Random.NextDouble().ToString();
-                manager.AppSettings.Propertys["prop3"] = "等待移除";
+                manager.AppSettings.Properties.AddOrUpdate("prop1", Common.Random.NextDouble().ToString());
+                manager.AppSettings.Properties["prop2"] = Common.Random.NextDouble().ToString();
+                manager.AppSettings.Properties["prop3"] = "等待移除";
                 //
                 // 移除属性的方法
                 //
-                manager.AppSettings.Propertys.AddOrUpdate("prop3", null);
-                manager.AppSettings.Propertys["prop3"] = null;
-                manager.AppSettings.Propertys.Remove("prop3");
+                manager.AppSettings.Properties.AddOrUpdate("prop3", null);
+                manager.AppSettings.Properties["prop3"] = null;
+                manager.AppSettings.Properties.Remove("prop3");
                 //
                 // 保存到创建实例时指定的文件
                 //
@@ -46,11 +46,11 @@ namespace Middleware
                 //
                 // 取出属性
                 //
-                if (manager.AppSettings.Propertys.TryGetValue("prop1", out string value))
+                if (manager.AppSettings.Properties.TryGetValue("prop1", out string value))
                 {
                     result.AppendLine(value);
                 }
-                value = manager.AppSettings.Propertys["prop2"];
+                value = manager.AppSettings.Properties["prop2"];
                 result.AppendLine(value);
             }
             return result.ToString();

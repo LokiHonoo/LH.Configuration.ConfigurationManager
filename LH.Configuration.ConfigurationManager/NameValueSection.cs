@@ -10,12 +10,12 @@ namespace LH.Configuration
     public sealed class NameValueSection : ConfigSection
     {
         private readonly XElement _content;
-        private readonly NameValueSectionPropertySet _propertys;
+        private readonly NameValueSectionPropertySet _properties;
 
         /// <summary>
         /// 包含的配置属性集合。
         /// </summary>
-        public NameValueSectionPropertySet Propertys => _propertys;
+        public NameValueSectionPropertySet Properties => _properties;
 
         #region Constructor
 
@@ -31,13 +31,13 @@ namespace LH.Configuration
             }
             XElement content = new XElement("newSection");
             XValueHelper.SetNameValueSection(value, content);
-            _propertys = new NameValueSectionPropertySet(content, null);
+            _properties = new NameValueSectionPropertySet(content, null);
             _content = content;
         }
 
         internal NameValueSection(XElement content, ISavable savable) : base("System.Configuration.NameValueSectionHandler")
         {
-            _propertys = new NameValueSectionPropertySet(content, savable);
+            _properties = new NameValueSectionPropertySet(content, savable);
             _content = content;
         }
 

@@ -115,17 +115,17 @@ namespace LH.Configuration
                 {
                     case "System.Configuration.DictionarySectionHandler, System":
                     case "System.Configuration.DictionarySectionHandler":
-                        AddOrUpdate(name, ((DictionarySection)value).Propertys.GetInternalValues());
+                        AddOrUpdate(name, ((DictionarySection)value).Properties.GetInternalValues());
                         break;
 
                     case "System.Configuration.NameValueSectionHandler, System":
                     case "System.Configuration.NameValueSectionHandler":
-                        AddOrUpdateNameValueSection(name, ((NameValueSection)value).Propertys.GetInternalValues());
+                        AddOrUpdateNameValueSection(name, ((NameValueSection)value).Properties.GetInternalValues());
                         break;
 
                     case "System.Configuration.SingleTagSectionHandler, System":
                     case "System.Configuration.SingleTagSectionHandler":
-                        AddOrUpdateSingleTagSection(name, ((SingleTagSection)value).Propertys.GetInternalValues());
+                        AddOrUpdateSingleTagSection(name, ((SingleTagSection)value).Properties.GetInternalValues());
                         break;
 
                     default: throw new TypeLoadException(value.TypeName);

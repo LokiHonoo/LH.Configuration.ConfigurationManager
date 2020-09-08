@@ -10,12 +10,12 @@ namespace LH.Configuration
     public sealed class SingleTagSection : ConfigSection
     {
         private readonly XElement _content;
-        private readonly SingleTagSectionPropertySet _propertys;
+        private readonly SingleTagSectionPropertySet _properties;
 
         /// <summary>
         /// 包含的配置属性集合。
         /// </summary>
-        public SingleTagSectionPropertySet Propertys => _propertys;
+        public SingleTagSectionPropertySet Properties => _properties;
 
         #region Constructor
 
@@ -31,13 +31,13 @@ namespace LH.Configuration
             }
             XElement content = new XElement("newSection");
             XValueHelper.SetSingleTagSection(value, content);
-            _propertys = new SingleTagSectionPropertySet(content, null);
+            _properties = new SingleTagSectionPropertySet(content, null);
             _content = content;
         }
 
         internal SingleTagSection(XElement content, ISavable savable) : base("System.Configuration.SingleTagSectionHandler")
         {
-            _propertys = new SingleTagSectionPropertySet(content, savable);
+            _properties = new SingleTagSectionPropertySet(content, savable);
             _content = content;
         }
 

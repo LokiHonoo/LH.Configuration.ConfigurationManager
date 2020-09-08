@@ -8,12 +8,12 @@ namespace LH.Configuration
     public sealed class ConnectionStrings
     {
         private readonly XElement _content;
-        private readonly ConnectionStringsPropertySet _propertys;
+        private readonly ConnectionStringsPropertySet _properties;
 
         /// <summary>
         /// 包含的配置属性集合。
         /// </summary>
-        public ConnectionStringsPropertySet Propertys => _propertys;
+        public ConnectionStringsPropertySet Properties => _properties;
 
         #region Constructor
 
@@ -25,7 +25,7 @@ namespace LH.Configuration
                 _content = new XElement("connectionStrings");
                 root.Add(_content);
             }
-            _propertys = new ConnectionStringsPropertySet(_content, savable);
+            _properties = new ConnectionStringsPropertySet(_content, savable);
         }
 
         #endregion Constructor

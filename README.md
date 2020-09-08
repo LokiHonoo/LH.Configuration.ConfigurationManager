@@ -43,6 +43,7 @@ using LH.Configuration;
 ### appSettings
 
 ```c#
+
 public static void Create()
 {
     //
@@ -53,15 +54,15 @@ public static void Create()
         //
         // 直接赋值等同于 AddOrUpdate 方法
         //
-        manager.AppSettings.Propertys.AddOrUpdate("prop1", Common.Random.NextDouble().ToString());
-        manager.AppSettings.Propertys["prop2"] = Common.Random.NextDouble().ToString();
-        manager.AppSettings.Propertys["prop3"] = "等待移除";
+        manager.AppSettings.Properties.AddOrUpdate("prop1", Common.Random.NextDouble().ToString());
+        manager.AppSettings.Properties["prop2"] = Common.Random.NextDouble().ToString();
+        manager.AppSettings.Properties["prop3"] = "等待移除";
         //
         // 移除属性的方法
         //
-        manager.AppSettings.Propertys.AddOrUpdate("prop3", null);
-        manager.AppSettings.Propertys["prop3"] = null;
-        manager.AppSettings.Propertys.Remove("prop3");
+        manager.AppSettings.Properties.AddOrUpdate("prop3", null);
+        manager.AppSettings.Properties["prop3"] = null;
+        manager.AppSettings.Properties.Remove("prop3");
         //
         // 保存到创建实例时指定的文件
         //
@@ -80,15 +81,16 @@ public static string Load()
         //
         // 取出属性
         //
-        if (manager.AppSettings.Propertys.TryGetValue("prop1", out string value))
+        if (manager.AppSettings.Properties.TryGetValue("prop1", out string value))
         {
             result.AppendLine(value);
         }
-        value = manager.AppSettings.Propertys["prop2"];
+        value = manager.AppSettings.Properties["prop2"];
         result.AppendLine(value);
     }
     return result.ToString();
 }
+
 ```
 
 ### connectionStrings
@@ -121,19 +123,19 @@ public static void Create()
         //
         // 直接赋值等同于 AddOrUpdate 方法
         //
-        manager.ConnectionStrings.Propertys.AddOrUpdate("prop1", conn1);
-        manager.ConnectionStrings.Propertys["prop2"] = new ConnectionStringsValue(conn1);
-        manager.ConnectionStrings.Propertys.AddOrUpdate("prop3", conn2.ConnectionString, typeof(MySqlConnection).Namespace);
+        manager.ConnectionStrings.Properties.AddOrUpdate("prop1", conn1);
+        manager.ConnectionStrings.Properties["prop2"] = new ConnectionStringsValue(conn1);
+        manager.ConnectionStrings.Properties.AddOrUpdate("prop3", conn2.ConnectionString, typeof(MySqlConnection).Namespace);
         //
         // 不设置引擎参数，读取时不能直接创建连接实例
         //
-        manager.ConnectionStrings.Propertys["prop4"] = new ConnectionStringsValue(conn2.ConnectionString, string.Empty);
+        manager.ConnectionStrings.Properties["prop4"] = new ConnectionStringsValue(conn2.ConnectionString, string.Empty);
         //
         // 移除属性的方法。
         //
-        manager.ConnectionStrings.Propertys.AddOrUpdate("prop4", (DbConnection)null);
-        manager.ConnectionStrings.Propertys["prop4"] = null;
-        manager.ConnectionStrings.Propertys.Remove("prop4");
+        manager.ConnectionStrings.Properties.AddOrUpdate("prop4", (DbConnection)null);
+        manager.ConnectionStrings.Properties["prop4"] = null;
+        manager.ConnectionStrings.Properties.Remove("prop4");
         //
         // 保存到创建实例时指定的文件
         //
@@ -152,16 +154,16 @@ public static string Load()
         //
         // 取出属性
         //
-        if (manager.ConnectionStrings.Propertys.TryGetValue("prop1", out ConnectionStringsValue property))
+        if (manager.ConnectionStrings.Properties.TryGetValue("prop1", out ConnectionStringsValue property))
         {
             result.AppendLine(property.Connection.ConnectionString);
         }
-        DbConnection connection = manager.ConnectionStrings.Propertys["prop2"].Connection;
+        DbConnection connection = manager.ConnectionStrings.Properties["prop2"].Connection;
         result.AppendLine(connection.ConnectionString);
         //
         // 不访问 Connection，属性内部没有实例化 Connection。项目没有引用相关数据库引擎时使用。
         //
-        string connectionString = manager.ConnectionStrings.Propertys["prop3"].ConnectionString;
+        string connectionString = manager.ConnectionStrings.Properties["prop3"].ConnectionString;
         result.AppendLine(connectionString);
     }
     return result.ToString();
@@ -227,7 +229,7 @@ public static void Create()
         //
         // 可修改集合
         //
-        DictionarySectionPropertySet props = ((DictionarySection)group.Sections["section3"]).Propertys;
+        DictionarySectionPropertySet props = ((DictionarySection)group.Sections["section3"]).Properties;
         props.AddOrUpdate("section_prop15_1", "强类型存储");
         //
         // 移除属性的方法
@@ -255,14 +257,14 @@ public static string Load()
         //
         if (manager.ConfigSections.Sections.TryGetValue("section1", out ConfigSection section))
         {
-            foreach (KeyValuePair<string, string> prop in ((SingleTagSection)section).Propertys)
+            foreach (KeyValuePair<string, string> prop in ((SingleTagSection)section).Properties)
             {
                 result.AppendLine(prop.Value);
             }
         }
         if (manager.ConfigSections.Sections.TryGetValue("section2", out section))
         {
-            foreach (KeyValuePair<string, string> prop in ((NameValueSection)section).Propertys)
+            foreach (KeyValuePair<string, string> prop in ((NameValueSection)section).Properties)
             {
                 result.AppendLine(prop.Value);
             }
@@ -272,7 +274,7 @@ public static string Load()
             if (group.Sections.TryGetValue("section3", out section))
             {
                 // 根据 type 参数返回强类型值。如果没有 type 参数，以 string 类型处理。
-                foreach (KeyValuePair<string, object> prop in ((DictionarySection)section).Propertys)
+                foreach (KeyValuePair<string, object> prop in ((DictionarySection)section).Properties)
                 {
                     result.AppendLine($"{prop.Value.GetType().Name,-10}{prop.Value}");
                 }

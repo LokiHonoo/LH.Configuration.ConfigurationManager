@@ -8,12 +8,12 @@ namespace LH.Configuration
     public sealed class AppSettings
     {
         private readonly XElement _content;
-        private readonly AppSettingsPropertySet _propertys;
+        private readonly AppSettingsPropertySet _properties;
 
         /// <summary>
         /// 包含的配置数据属性集合。
         /// </summary>
-        public AppSettingsPropertySet Propertys => _propertys;
+        public AppSettingsPropertySet Properties => _properties;
 
         #region Constructor
 
@@ -25,7 +25,7 @@ namespace LH.Configuration
                 _content = new XElement("appSettings");
                 root.Add(_content);
             }
-            _propertys = new AppSettingsPropertySet(_content, savable);
+            _properties = new AppSettingsPropertySet(_content, savable);
         }
 
         #endregion Constructor
