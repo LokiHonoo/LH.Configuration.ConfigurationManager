@@ -7,7 +7,7 @@ namespace LH.Configuration
     /// <summary>
     /// 配置属性集合。
     /// </summary>
-    public sealed class AppSettingsPropertySet : IEnumerable
+    public sealed class AppSettingsPropertySet : IEnumerable<KeyValuePair<string, string>>, IEnumerable
     {
         private readonly IDictionary<string, XElement> _contents = new Dictionary<string, XElement>();
         private readonly ISavable _savable;

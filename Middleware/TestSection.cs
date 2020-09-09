@@ -13,7 +13,7 @@ namespace Middleware
         public static void Create()
         {
             //
-            // 使用 .NET 程序的默认配置文件
+            // 使用 .NET 程序的默认配置文件。
             //
             string filePath = Assembly.GetEntryAssembly().Location + ".config";
             using (ConfigurationManager manager = new ConfigurationManager(filePath))
@@ -24,7 +24,7 @@ namespace Middleware
                 // System.Configuration.NameValueSectionHandler
                 // System.Configuration.DictionarySectionHandler
                 //
-                // 直接赋值等同于 AddOrUpdate 方法
+                // 直接赋值等同于 AddOrUpdate 方法。
                 //
                 SingleTagSection section1 = (SingleTagSection)manager.ConfigSections.Sections.GetOrAdd("section1", ConfigSectionType.SingleTagSection);
                 section1.Properties.AddOrUpdate("section_prop1", Common.Random.NextDouble().ToString());
@@ -51,7 +51,7 @@ namespace Middleware
                 section3.Properties["section_prop14"] = new byte[] { 0x01, 0x02, 0x03, 0x0A, 0x0B, 0x0C };
                 section3.Properties["section_prop15"] = "支持 15 种单值类型";
                 //
-                // 保存到创建实例时指定的文件
+                // 保存到创建实例时指定的文件。
                 //
                 manager.Save();
             }
@@ -61,13 +61,13 @@ namespace Middleware
         {
             StringBuilder result = new StringBuilder();
             //
-            // 使用 .NET 程序的默认配置文件
+            // 使用 .NET 程序的默认配置文件。
             //
             string filePath = Assembly.GetEntryAssembly().Location + ".config";
             using (ConfigurationManager manager = new ConfigurationManager(filePath))
             {
                 //
-                // 取出属性
+                // 取出属性。
                 //
                 if (manager.ConfigSections.Sections.TryGetValue("section1", out SingleTagSection section1))
                 {

@@ -53,6 +53,13 @@ Limited read/write support for appSettings, connectionStrings, configSections no
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  
+  <ItemGroup>
     <None Include="..\LH.Logo_32x32-32.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

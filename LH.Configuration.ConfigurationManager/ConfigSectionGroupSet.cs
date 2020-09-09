@@ -7,7 +7,7 @@ namespace LH.Configuration
     /// <summary>
     ///  配置组集合。
     /// </summary>
-    public sealed class ConfigSectionGroupSet : IEnumerable
+    public sealed class ConfigSectionGroupSet : IEnumerable<KeyValuePair<string, ConfigSectionGroup>>, IEnumerable
     {
         private readonly IDictionary<string, XElement> _contents = new Dictionary<string, XElement>();
         private readonly XElement _contentSuperior;

@@ -15,7 +15,7 @@ namespace Middleware
         public static void Create()
         {
             //
-            // 使用 .NET 程序的默认配置文件
+            // 使用 .NET 程序的默认配置文件。
             //
             string filePath = Assembly.GetEntryAssembly().Location + ".config";
             using (ConfigurationManager manager = new ConfigurationManager(filePath))
@@ -37,23 +37,23 @@ namespace Middleware
                 };
                 MySqlConnection conn2 = new MySqlConnection(builder2.ConnectionString);
                 //
-                // 直接赋值等同于 AddOrUpdate 方法
+                // 直接赋值等同于 AddOrUpdate 方法。
                 //
                 manager.ConnectionStrings.Properties.AddOrUpdate("prop1", conn1);
                 manager.ConnectionStrings.Properties["prop2"] = new ConnectionStringsValue(conn1);
                 manager.ConnectionStrings.Properties.AddOrUpdate("prop3", conn2.ConnectionString, typeof(MySqlConnection).Namespace);
                 //
-                // 不设置引擎参数，读取时不能直接创建连接实例
+                // 不设置引擎参数，读取时不能直接创建连接实例。
                 //
                 manager.ConnectionStrings.Properties["prop4"] = new ConnectionStringsValue(conn2.ConnectionString, string.Empty);
                 //
-                // 移除属性的方法。
+                // 移除属性的方法。选择其一。
                 //
                 manager.ConnectionStrings.Properties.AddOrUpdate("prop4", (DbConnection)null);
                 manager.ConnectionStrings.Properties["prop4"] = null;
                 manager.ConnectionStrings.Properties.Remove("prop4");
                 //
-                // 保存到创建实例时指定的文件
+                // 保存到创建实例时指定的文件。
                 //
                 manager.Save();
             }
@@ -63,13 +63,13 @@ namespace Middleware
         {
             StringBuilder result = new StringBuilder();
             //
-            // 使用 .NET 程序的默认配置文件
+            // 使用 .NET 程序的默认配置文件。
             //
             string filePath = Assembly.GetEntryAssembly().Location + ".config";
             using (ConfigurationManager manager = new ConfigurationManager(filePath))
             {
                 //
-                // 取出属性
+                // 取出属性。
                 //
                 if (manager.ConnectionStrings.Properties.TryGetValue("prop1", out ConnectionStringsValue property))
                 {

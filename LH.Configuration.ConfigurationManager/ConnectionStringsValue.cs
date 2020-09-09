@@ -47,8 +47,18 @@ namespace LH.Configuration
         /// 创建 ConnectionStringsValue 的新实例。
         /// </summary>
         /// <param name="connection">数据库连接实例。</param>
-        public ConnectionStringsValue(DbConnection connection) : this(connection.ConnectionString, connection.GetType().Namespace)
+        public ConnectionStringsValue(DbConnection connection)
         {
+            if (connection is null)
+            {
+                throw new ArgumentNullException(nameof(connection));
+            }
+            _connectionString = connection.ConnectionString;
+            _providerName = connection.GetType().Namespace;
+            _content = new XElement("add");
+            _content.SetAttributeValue("name", "newConnectionStringsValue");
+            _content.SetAttributeValue("connectionString", _connectionString);
+            _content.SetAttributeValue("providerName", _providerName);
         }
 
         /// <summary>
@@ -62,12 +72,12 @@ namespace LH.Configuration
             {
                 throw new ArgumentNullException(nameof(connectionString));
             }
+            _connectionString = connectionString;
+            _providerName = providerName;
             _content = new XElement("add");
             _content.SetAttributeValue("name", "newConnectionStringsValue");
             _content.SetAttributeValue("connectionString", connectionString);
             _content.SetAttributeValue("providerName", providerName);
-            _connectionString = connectionString;
-            _providerName = providerName;
         }
 
         internal ConnectionStringsValue(XElement content)
@@ -99,7 +109,7 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 方法已重写。返回节点的 XML 文本。
+        /// 方法已重写。返回节点的缩进 XML 文本。
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -114,46 +124,46 @@ namespace LH.Configuration
 
         private static DbConnection GetInstance(string providerName, string connectionString)
         {
-            string typeName;
+            Type type;
             switch (providerName)
             {
                 case "System.Data.Odbc":
-#if NET40
-                    typeName = "System.Data.Odbc.OdbcConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
-#else
-                    typeName = "System.Data.Odbc.OdbcConnection, System.Data.Odbc";
-#endif
+                    type = Type.GetType("System.Data.Odbc.OdbcConnection, System.Data.Odbc");
+                    if (type is null)
+                    {
+                        type = Type.GetType("System.Data.Odbc.OdbcConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+                    }
                     break;
 
                 case "System.Data.OleDb":
-#if NET40
-                    typeName = "System.Data.OleDb.OleDbConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
-#else
-                    typeName = "System.Data.OleDb.OleDbConnection, System.Data.OleDb";
-#endif
+                    type = Type.GetType("System.Data.OleDb.OleDbConnection, System.Data.OleDb");
+                    if (type is null)
+                    {
+                        type = Type.GetType("System.Data.OleDb.OleDbConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+                    }
                     break;
 
                 case "System.Data.SqlClient":
-#if NET40
-                    typeName = "System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
-#else
-                    typeName = "System.Data.SqlClient.SqlConnection, System.Data.SqlClient";
-#endif
+                    type = Type.GetType("System.Data.SqlClient.SqlConnection, System.Data.SqlClient");
+                    if (type is null)
+                    {
+                        type = Type.GetType("System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+                    }
                     break;
 
-                case "System.Data.SqlServerCe": typeName = "System.Data.SqlServerCe.SqlCeConnection, System.Data.SqlServerCe"; break;
-                case "System.Data.EntityClient": typeName = "System.Data.EntityClient.EntityConnection, System.Data.EntityClient"; break;
-                case "System.Data.OracleClient": typeName = "System.Data.OracleClient.OracleConnection, System.Data.OracleClient"; break;
-                case "System.Data.SQLite": typeName = "System.Data.SQLite.SQLiteConnection, System.Data.SQLite"; break;
-                case "Microsoft.Data.SqlClient": typeName = "Microsoft.Data.SqlClient.SqlConnection, Microsoft.Data.SqlClient"; break;
-                case "Microsoft.SqlServerCe.Client": typeName = "Microsoft.SqlServerCe.Client.SqlCeConnection, Microsoft.SqlServerCe.Client"; break;
-                case "Microsoft.Data.Sqlite": typeName = "Microsoft.Data.Sqlite.SqliteConnection, Microsoft.Data.Sqlite"; break;
-                case "Oracle.DataAccess.Client": typeName = "Oracle.DataAccess.Client.OracleConnection, Oracle.DataAccess.Client"; break;
-                case "MySql.Data.MySqlClient": typeName = "MySql.Data.MySqlClient.MySqlConnection, MySql.Data.MySqlClient"; break;
-                case "MySqlConnector": typeName = "MySqlConnector.MySqlConnection, MySqlConnector"; break;
-                default: typeName = providerName; break;
+                case "System.Data.SqlServerCe": type = Type.GetType("System.Data.SqlServerCe.SqlCeConnection, System.Data.SqlServerCe"); break;
+                case "System.Data.EntityClient": type = Type.GetType("System.Data.EntityClient.EntityConnection, System.Data.EntityClient"); break;
+                case "System.Data.OracleClient": type = Type.GetType("System.Data.OracleClient.OracleConnection, System.Data.OracleClient"); break;
+                case "System.Data.SQLite": type = Type.GetType("System.Data.SQLite.SQLiteConnection, System.Data.SQLite"); break;
+                case "Microsoft.Data.SqlClient": type = Type.GetType("Microsoft.Data.SqlClient.SqlConnection, Microsoft.Data.SqlClient"); break;
+                case "Microsoft.SqlServerCe.Client": type = Type.GetType("Microsoft.SqlServerCe.Client.SqlCeConnection, Microsoft.SqlServerCe.Client"); break;
+                case "Microsoft.Data.Sqlite": type = Type.GetType("Microsoft.Data.Sqlite.SqliteConnection, Microsoft.Data.Sqlite"); break;
+                case "Oracle.DataAccess.Client": type = Type.GetType("Oracle.DataAccess.Client.OracleConnection, Oracle.DataAccess.Client"); break;
+                case "MySql.Data.MySqlClient": type = Type.GetType("MySql.Data.MySqlClient.MySqlConnection, MySql.Data.MySqlClient"); break;
+                case "MySqlConnector": type = Type.GetType("MySqlConnector.MySqlConnection, MySqlConnector"); break;
+                default: type = Type.GetType(providerName); break;
             }
-            return (DbConnection)Activator.CreateInstance(Type.GetType(typeName), connectionString);
+            return (DbConnection)Activator.CreateInstance(type, connectionString);
         }
     }
 }
