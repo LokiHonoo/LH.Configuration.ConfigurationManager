@@ -269,17 +269,6 @@ namespace LH.Configuration
         /// <param name="name">配置容器的名称。</param>
         /// <param name="value">配置容器的值。</param>
         /// <returns></returns>
-        public bool TryGetValue(string name, out ConfigSection value)
-        {
-            return _values.TryGetValue(name, out value);
-        }
-
-        /// <summary>
-        /// 获取与指定名称关联的配置容器的值。
-        /// </summary>
-        /// <param name="name">配置容器的名称。</param>
-        /// <param name="value">配置容器的值。</param>
-        /// <returns></returns>
         public bool TryGetValue(string name, out SingleTagSection value)
         {
             if (_values.TryGetValue(name, out ConfigSection val))
@@ -292,6 +281,17 @@ namespace LH.Configuration
                 value = null;
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 获取与指定名称关联的配置容器的值。
+        /// </summary>
+        /// <param name="name">配置容器的名称。</param>
+        /// <param name="value">配置容器的值。</param>
+        /// <returns></returns>
+        public bool TryGetValue(string name, out ConfigSection value)
+        {
+            return _values.TryGetValue(name, out value);
         }
     }
 }

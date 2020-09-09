@@ -20,9 +20,9 @@ namespace LH.Configuration
         NameValueSection = 2,
 
         /// <summary>
-        /// System.Configuration.NameValueSectionHandler 类型。
+        /// System.Configuration.SingleTagSectionHandler 类型。
         /// </summary>
-        [Description("System.Configuration.NameValueSectionHandler")]
+        [Description("System.Configuration.SingleTagSectionHandler")]
         SingleTagSection = 3,
     }
 }
