@@ -134,9 +134,9 @@ namespace LH.Configuration
             {
                 switch (type)
                 {
-                    case ConfigSectionType.DictionarySectionHandler: return (DictionarySection)value;
-                    case ConfigSectionType.NameValueSectionHandler: return (NameValueSection)value;
-                    case ConfigSectionType.SingleTagSectionHandler: return (SingleTagSection)value;
+                    case ConfigSectionType.DictionarySection: return (DictionarySection)value;
+                    case ConfigSectionType.NameValueSection: return (NameValueSection)value;
+                    case ConfigSectionType.SingleTagSection: return (SingleTagSection)value;
                     default: throw new ArgumentException(nameof(type));
                 }
             }
@@ -148,17 +148,17 @@ namespace LH.Configuration
                 ConfigSection section;
                 switch (type)
                 {
-                    case ConfigSectionType.DictionarySectionHandler:
+                    case ConfigSectionType.DictionarySection:
                         declaration.SetAttributeValue("type", "System.Configuration.DictionarySectionHandler");
                         section = new DictionarySection(content, _savable);
                         break;
 
-                    case ConfigSectionType.NameValueSectionHandler:
+                    case ConfigSectionType.NameValueSection:
                         declaration.SetAttributeValue("type", "System.Configuration.NameValueSectionHandler");
                         section = new NameValueSection(content, _savable);
                         break;
 
-                    case ConfigSectionType.SingleTagSectionHandler:
+                    case ConfigSectionType.SingleTagSection:
                         declaration.SetAttributeValue("type", "System.Configuration.SingleTagSectionHandler");
                         section = new SingleTagSection(content, _savable);
                         break;

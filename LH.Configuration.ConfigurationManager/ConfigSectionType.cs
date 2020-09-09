@@ -11,18 +11,18 @@ namespace LH.Configuration
         /// System.Configuration.DictionarySectionHandler 类型。
         /// </summary>
         [Description("System.Configuration.DictionarySectionHandler")]
-        DictionarySectionHandler = 1,
+        DictionarySection = 1,
 
         /// <summary>
         /// System.Configuration.NameValueSectionHandler 类型。
         /// </summary>
         [Description("System.Configuration.NameValueSectionHandler")]
-        NameValueSectionHandler = 2,
+        NameValueSection = 2,
 
         /// <summary>
         /// System.Configuration.NameValueSectionHandler 类型。
         /// </summary>
         [Description("System.Configuration.NameValueSectionHandler")]
-        SingleTagSectionHandler = 3,
+        SingleTagSection = 3,
     }
 }

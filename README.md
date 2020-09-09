@@ -195,15 +195,15 @@ public static void Create()
         //
         // 直接赋值等同于 AddOrUpdate 方法
         //
-        SingleTagSection section1 = (SingleTagSection)manager.ConfigSections.Sections.GetOrAdd("section1", ConfigSectionType.SingleTagSectionHandler);
+        SingleTagSection section1 = (SingleTagSection)manager.ConfigSections.Sections.GetOrAdd("section1", ConfigSectionType.SingleTagSection);
         section1.Properties.AddOrUpdate("section_prop1", Common.Random.NextDouble().ToString());
         section1.Properties["section_prop2"] = Common.Random.NextDouble().ToString();
-        NameValueSection section2 = (NameValueSection)manager.ConfigSections.Sections.GetOrAdd("section2", ConfigSectionType.NameValueSectionHandler);
+        NameValueSection section2 = (NameValueSection)manager.ConfigSections.Sections.GetOrAdd("section2", ConfigSectionType.NameValueSection);
         section2.Properties.AddOrUpdate("section_prop1", Common.Random.NextDouble().ToString());
         section2.Properties["section_prop2"] = Common.Random.NextDouble().ToString();
         //
         ConfigSectionGroup group = manager.ConfigSections.Groups.GetOrAdd("sectionGroup1");
-        DictionarySection section3 = (DictionarySection)group.Sections.GetOrAdd("section3", ConfigSectionType.DictionarySectionHandler);
+        DictionarySection section3 = (DictionarySection)group.Sections.GetOrAdd("section3", ConfigSectionType.DictionarySection);
         section3.Properties.AddOrUpdate("section_prop1", true);
         section3.Properties.AddOrUpdate("section_prop2", sbyte.MaxValue);
         section3.Properties.AddOrUpdate("section_prop3", byte.MaxValue);
