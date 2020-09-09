@@ -5,7 +5,7 @@
     <PackageId>LH.Configuration.ConfigurationManager</PackageId>
     <Company>LH.Studio</Company>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Copyright>Copyright © LH.Studio 2020</Copyright>
+    <Copyright>Copyright (C) LH.Studio 2020</Copyright>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>LH.Configuration.ConfigurationManager.snk</AssemblyOriginatorKeyFile>
     <Authors>Loki Honoo</Authors>
