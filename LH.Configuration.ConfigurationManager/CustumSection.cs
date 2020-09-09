@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml.Linq;
 
 namespace LH.Configuration
 {
@@ -10,7 +11,7 @@ namespace LH.Configuration
         private readonly string _xmlString;
 
         /// <summary>
-        /// 获取节点的 Xml 文本。
+        /// 获取节点的缩进 Xml 文本。
         /// </summary>
         public string XmlString => _xmlString;
 
@@ -30,7 +31,7 @@ namespace LH.Configuration
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            return obj is CustumSection other && _xmlString.Equals(other._xmlString);
+            return obj is CustumSection other && _xmlString.Equals(other._xmlString, StringComparison.InvariantCulture);
         }
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 方法已重写。返回节点的 XML 文本。
+        /// 方法已重写。返回节点的缩进 XML 文本。
         /// </summary>
         /// <returns></returns>
         public override string ToString()

@@ -195,6 +195,10 @@ namespace LH.Configuration
         /// </summary>
         public void Save(Stream stream)
         {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
             stream.SetLength(0);
             _root.Save(stream);
         }
@@ -209,7 +213,7 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 方法已重写。返回配置的 XML 文本。不包括文档描述。
+        /// 方法已重写。返回根节点的缩进 XML 文本。不包括文档描述。
         /// </summary>
         /// <returns></returns>
         public override string ToString()

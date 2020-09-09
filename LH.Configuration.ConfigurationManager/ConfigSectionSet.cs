@@ -8,7 +8,7 @@ namespace LH.Configuration
     /// <summary>
     /// 配置容器集合。
     /// </summary>
-    public sealed class ConfigSectionSet : IEnumerable
+    public sealed class ConfigSectionSet : IEnumerable<KeyValuePair<string, ConfigSection>>, IEnumerable
     {
         private readonly IDictionary<string, XElement> _contents = new Dictionary<string, XElement>();
         private readonly XElement _contentSuperior;
@@ -112,14 +112,14 @@ namespace LH.Configuration
         /// 支持在泛型集合上进行简单迭代。
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<ConfigSection> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, ConfigSection>> GetEnumerator()
         {
-            return _values.Values.GetEnumerator();
+            return _values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _values.Values.GetEnumerator();
+            return _values.GetEnumerator();
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace LH.Configuration
                     case ConfigSectionType.DictionarySection: return (DictionarySection)value;
                     case ConfigSectionType.NameValueSection: return (NameValueSection)value;
                     case ConfigSectionType.SingleTagSection: return (SingleTagSection)value;
-                    default: throw new ArgumentException(nameof(type));
+                    default: throw new ArgumentException(null, nameof(type));
                 }
             }
             else

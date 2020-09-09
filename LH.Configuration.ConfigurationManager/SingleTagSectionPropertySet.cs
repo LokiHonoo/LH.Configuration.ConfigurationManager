@@ -7,7 +7,7 @@ namespace LH.Configuration
     /// <summary>
     /// 配置属性集合。
     /// </summary>
-    public sealed class SingleTagSectionPropertySet : IEnumerable
+    public sealed class SingleTagSectionPropertySet : IEnumerable<KeyValuePair<string, string>>, IEnumerable
     {
         private readonly XElement _content;
         private readonly ISavable _savable;

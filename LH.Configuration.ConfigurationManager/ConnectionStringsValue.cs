@@ -47,8 +47,18 @@ namespace LH.Configuration
         /// 创建 ConnectionStringsValue 的新实例。
         /// </summary>
         /// <param name="connection">数据库连接实例。</param>
-        public ConnectionStringsValue(DbConnection connection) : this(connection.ConnectionString, connection.GetType().Namespace)
+        public ConnectionStringsValue(DbConnection connection)
         {
+            if (connection is null)
+            {
+                throw new ArgumentNullException(nameof(connection));
+            }
+            _connectionString = connection.ConnectionString;
+            _providerName = connection.GetType().Namespace;
+            _content = new XElement("add");
+            _content.SetAttributeValue("name", "newConnectionStringsValue");
+            _content.SetAttributeValue("connectionString", _connectionString);
+            _content.SetAttributeValue("providerName", _providerName);
         }
 
         /// <summary>
@@ -62,12 +72,12 @@ namespace LH.Configuration
             {
                 throw new ArgumentNullException(nameof(connectionString));
             }
+            _connectionString = connectionString;
+            _providerName = providerName;
             _content = new XElement("add");
             _content.SetAttributeValue("name", "newConnectionStringsValue");
             _content.SetAttributeValue("connectionString", connectionString);
             _content.SetAttributeValue("providerName", providerName);
-            _connectionString = connectionString;
-            _providerName = providerName;
         }
 
         internal ConnectionStringsValue(XElement content)
@@ -99,7 +109,7 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 方法已重写。返回节点的 XML 文本。
+        /// 方法已重写。返回节点的缩进 XML 文本。
         /// </summary>
         /// <returns></returns>
         public override string ToString()
