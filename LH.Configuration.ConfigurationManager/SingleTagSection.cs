@@ -5,7 +5,7 @@ namespace LH.Configuration
     /// <summary>
     /// 配置容器。
     /// </summary>
-    public sealed class SingleTagSection : ConfigSection
+    public sealed class SingleTagSection : IConfigSection
     {
         private readonly XElement _content;
         private readonly SingleTagSectionPropertySet _properties;
@@ -17,7 +17,7 @@ namespace LH.Configuration
 
         #region Constructor
 
-        internal SingleTagSection(XElement content, ISavable savable) : base("System.Configuration.SingleTagSectionHandler")
+        internal SingleTagSection(XElement content, ISavable savable)
         {
             _properties = new SingleTagSectionPropertySet(content, savable);
             _content = content;

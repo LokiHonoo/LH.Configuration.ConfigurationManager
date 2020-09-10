@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -13,30 +14,31 @@ namespace LH.Configuration
         private readonly XElement _contentSuperior;
         private readonly IDictionary<string, XElement> _declarations = new Dictionary<string, XElement>();
         private readonly XElement _declarationSuperior;
-        private readonly IDictionary<string, ConfigSectionGroup> _groups = new Dictionary<string, ConfigSectionGroup>();
         private readonly ISavable _savable;
+        private readonly IDictionary<string, ConfigSectionGroup> _values = new Dictionary<string, ConfigSectionGroup>();
 
         /// <summary>
         /// 获取配置组集合中包含的元素数。
         /// </summary>
-        public int Count => _groups.Count;
+        public int Count => _values.Count;
 
         /// <summary>
         /// 获取配置组集合的名称的集合。
         /// </summary>
-        public ICollection<string> Names => _groups.Keys;
+        public ICollection<string> Names => _values.Keys;
 
         /// <summary>
         /// 获取配置组集合。
         /// </summary>
-        public ICollection<ConfigSectionGroup> Values => _groups.Values;
+        public ICollection<ConfigSectionGroup> Values => _values.Values;
 
         /// <summary>
         /// 获取具有指定名称的配置组的值。
         /// </summary>
         /// <param name="name">配置组的名称。</param>
         /// <returns></returns>
-        public ConfigSectionGroup this[string name] => _groups.ContainsKey(name) ? _groups[name] : null;
+        /// <exception cref="Exception"/>
+        public ConfigSectionGroup this[string name] => _values.ContainsKey(name) ? _values[name] : null;
 
         #region Constructor
 
@@ -51,8 +53,8 @@ namespace LH.Configuration
                 {
                     string name = declaration.Attribute("name").Value;
                     XElement content = contentSuperior.Element(name);
-                    ConfigSectionGroup group = new ConfigSectionGroup(declaration, content, savable);
-                    _groups.Add(name, group);
+                    ConfigSectionGroup value = new ConfigSectionGroup(declaration, content, savable);
+                    _values.Add(name, value);
                     _contents.Add(name, content);
                     _declarations.Add(name, declaration);
                 }
@@ -66,7 +68,7 @@ namespace LH.Configuration
         /// </summary>
         public void Clear()
         {
-            _groups.Clear();
+            _values.Clear();
             _contents.Clear();
             _contentSuperior.RemoveNodes();
             _declarations.Clear();
@@ -82,9 +84,10 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="name">配置组的名称。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool ContainsName(string name)
         {
-            return _groups.ContainsKey(name);
+            return _values.ContainsKey(name);
         }
 
         /// <summary>
@@ -93,31 +96,40 @@ namespace LH.Configuration
         /// <returns></returns>
         public IEnumerator<KeyValuePair<string, ConfigSectionGroup>> GetEnumerator()
         {
-            return _groups.GetEnumerator();
+            return _values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _groups.GetEnumerator();
+            return _values.GetEnumerator();
         }
 
         /// <summary>
         /// 获取与指定名称关联的配置组的值。如果不存在，添加一个配置组并返回值。
         /// </summary>
         /// <param name="name">配置组的名称。</param>
+        /// <exception cref="Exception"/>
         public ConfigSectionGroup GetOrAdd(string name)
         {
-            if (_groups.ContainsKey(name))
+            if (name is null)
             {
-                return _groups[name];
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (name.Contains(" "))
+            {
+                throw new ArgumentException(ExceptionMessages.InvalidKey.Message + " - " + nameof(name));
+            }
+            if (_values.ContainsKey(name))
+            {
+                return _values[name];
             }
             else
             {
                 XElement declaration = new XElement("sectionGroup");
                 declaration.SetAttributeValue("name", name);
                 XElement content = new XElement(name);
-                ConfigSectionGroup group = new ConfigSectionGroup(declaration, content, _savable);
-                _groups.Add(name, group);
+                ConfigSectionGroup value = new ConfigSectionGroup(declaration, content, _savable);
+                _values.Add(name, value);
                 _contents.Add(name, content);
                 _contentSuperior.Add(content);
                 _declarations.Add(name, declaration);
@@ -126,7 +138,7 @@ namespace LH.Configuration
                 {
                     _savable.Save();
                 }
-                return group;
+                return value;
             }
         }
 
@@ -135,9 +147,10 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="name">配置组的名称。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool Remove(string name)
         {
-            if (_groups.Remove(name))
+            if (_values.Remove(name))
             {
                 _contents[name].Remove();
                 _contents.Remove(name);
@@ -161,9 +174,10 @@ namespace LH.Configuration
         /// <param name="name">配置组的名称。</param>
         /// <param name="value">配置组的值。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool TryGetValue(string name, out ConfigSectionGroup value)
         {
-            return _groups.TryGetValue(name, out value);
+            return _values.TryGetValue(name, out value);
         }
     }
 }

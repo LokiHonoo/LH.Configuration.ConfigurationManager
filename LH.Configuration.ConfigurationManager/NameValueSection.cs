@@ -5,7 +5,7 @@ namespace LH.Configuration
     /// <summary>
     /// 配置容器。
     /// </summary>
-    public sealed class NameValueSection : ConfigSection
+    public sealed class NameValueSection : IConfigSection
     {
         private readonly XElement _content;
         private readonly NameValueSectionPropertySet _properties;
@@ -17,7 +17,7 @@ namespace LH.Configuration
 
         #region Constructor
 
-        internal NameValueSection(XElement content, ISavable savable) : base("System.Configuration.NameValueSectionHandler")
+        internal NameValueSection(XElement content, ISavable savable)
         {
             _properties = new NameValueSectionPropertySet(content, savable);
             _content = content;

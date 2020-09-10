@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -34,6 +35,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="key">配置属性的键。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public string this[string key]
         {
             get => _values.ContainsKey(key) ? _values[key] : null;
@@ -61,55 +63,17 @@ namespace LH.Configuration
         #endregion Constructor
 
         /// <summary>
-        /// 添加或合并一个配置属性。
-        /// </summary>
-        /// <param name="key">配置属性的键。</param>
-        /// <param name="value">配置属性的值。合并到已存在的字符串中，以逗号 "," 连接为一个字符串。</param>
-        public void AddOrMerge(string key, string value)
-        {
-            if (value is null)
-            {
-                if (_values.Remove(key))
-                {
-                    _contents[key].Remove();
-                    _contents.Remove(key);
-                    if (_savable.AutoSave)
-                    {
-                        _savable.Save();
-                    }
-                }
-            }
-            else
-            {
-                if (_values.TryGetValue(key, out string old))
-                {
-                    string merge = $"{old},{value}";
-                    _contents[key].SetAttributeValue("value", merge);
-                    _values[key] = merge;
-                }
-                else
-                {
-                    XElement content = new XElement("add");
-                    content.SetAttributeValue("key", key);
-                    content.SetAttributeValue("value", value);
-                    _values.Add(key, value);
-                    _contents.Add(key, content);
-                    _superior.Add(content);
-                }
-                if (_savable.AutoSave)
-                {
-                    _savable.Save();
-                }
-            }
-        }
-
-        /// <summary>
         /// 添加或更新一个配置属性。
         /// </summary>
         /// <param name="key">配置属性的键。</param>
         /// <param name="value">配置属性的值。</param>
+        /// <exception cref="Exception"/>
         public void AddOrUpdate(string key, string value)
         {
+            if (key is null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
             if (value is null)
             {
                 if (_values.Remove(key))
@@ -150,8 +114,13 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="key">配置属性的键。</param>
         /// <param name="value">配置属性的值。以逗号 "," 连接为一个字符串。</param>
+        /// <exception cref="Exception"/>
         public void AddOrUpdate(string key, string[] value)
         {
+            if (key is null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
             if (value is null)
             {
                 if (_values.Remove(key))
@@ -208,6 +177,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="key">配置属性的键。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool ContainsKey(string key)
         {
             return _values.ContainsKey(key);
@@ -232,6 +202,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="key">配置属性的键。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool Remove(string key)
         {
             if (_values.Remove(key))
@@ -256,6 +227,7 @@ namespace LH.Configuration
         /// <param name="key">配置属性的键。</param>
         /// <param name="value">配置属性的值。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool TryGetValue(string key, out string value)
         {
             return _values.TryGetValue(key, out value);
@@ -267,6 +239,7 @@ namespace LH.Configuration
         /// <param name="key">配置属性的键。</param>
         /// <param name="value">配置属性的值。以逗号 "," 分割字符串。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool TryGetValue(string key, out string[] value)
         {
             if (_values.TryGetValue(key, out string val))

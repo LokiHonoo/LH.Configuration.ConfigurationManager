@@ -36,6 +36,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="name">连接属性的名称。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public ConnectionStringsValue this[string name]
         {
             get => _values.ContainsKey(name) ? _values[name] : null;
@@ -67,8 +68,13 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="name">连接属性的名称。</param>
         /// <param name="value">连接属性的值。</param>
+        /// <exception cref="Exception"/>
         public void AddOrUpdate(string name, ConnectionStringsValue value)
         {
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
             if (value is null)
             {
                 AddOrUpdate(name, null, null);
@@ -84,8 +90,13 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="name">连接属性的名称。</param>
         /// <param name="connection">数据库连接实例。</param>
+        /// <exception cref="Exception"/>
         public void AddOrUpdate(string name, DbConnection connection)
         {
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
             if (connection is null)
             {
                 AddOrUpdate(name, null, null);
@@ -102,8 +113,13 @@ namespace LH.Configuration
         /// <param name="name">连接属性的名称。</param>
         /// <param name="connectionString">连接字符串。</param>
         /// <param name="providerName">数据库引擎的文本名称。</param>
+        /// <exception cref="Exception"/>
         public void AddOrUpdate(string name, string connectionString, string providerName)
         {
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
             if (connectionString is null && providerName is null)
             {
                 if (_values.Remove(name))
@@ -166,6 +182,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="name">连接属性的名称。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool ContainsName(string name)
         {
             return _values.ContainsKey(name);
@@ -190,6 +207,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="name">连接属性的名称。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool Remove(string name)
         {
             if (_values.Remove(name))
@@ -214,6 +232,7 @@ namespace LH.Configuration
         /// <param name="name">连接属性的名称。</param>
         /// <param name="value">连接属性的值。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool TryGetValue(string name, out ConnectionStringsValue value)
         {
             return _values.TryGetValue(name, out value);
@@ -225,6 +244,7 @@ namespace LH.Configuration
         /// <param name="name">连接属性的名称。</param>
         /// <param name="connection">连接属性的值。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool TryGetValue(string name, out DbConnection connection)
         {
             if (_values.TryGetValue(name, out ConnectionStringsValue value))
@@ -246,6 +266,7 @@ namespace LH.Configuration
         /// <param name="connectionString">连接字符串。</param>
         /// <param name="providerName">数据库引擎的文本名称。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool TryGetValue(string name, out string connectionString, out string providerName)
         {
             if (_values.TryGetValue(name, out ConnectionStringsValue value))

@@ -5,7 +5,7 @@ namespace LH.Configuration
     /// <summary>
     /// 配置容器。
     /// </summary>
-    public sealed class DictionarySection : ConfigSection
+    public sealed class DictionarySection : IConfigSection
     {
         private readonly XElement _content;
         private readonly DictionarySectionPropertySet _properties;
@@ -17,7 +17,7 @@ namespace LH.Configuration
 
         #region Constructor
 
-        internal DictionarySection(XElement content, ISavable savable) : base("System.Configuration.DictionarySectionHandler")
+        internal DictionarySection(XElement content, ISavable savable)
         {
             _properties = new DictionarySectionPropertySet(content, savable);
             _content = content;

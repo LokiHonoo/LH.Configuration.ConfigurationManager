@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -34,6 +35,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="key">配置属性的键。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public string this[string key]
         {
             get => _values.ContainsKey(key) ? _values[key] : null;
@@ -65,8 +67,13 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="key">配置属性的键。</param>
         /// <param name="value">配置属性的值。</param>
+        /// <exception cref="Exception"/>
         public void AddOrUpdate(string key, string value)
         {
+            if (key is null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
             if (value is null)
             {
                 if (_values.Remove(key))
@@ -121,6 +128,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="key">配置属性的键。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool ContainsKey(string key)
         {
             return _values.ContainsKey(key);
@@ -145,6 +153,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="key">配置属性的键。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool Remove(string key)
         {
             if (_values.Remove(key))
@@ -169,6 +178,7 @@ namespace LH.Configuration
         /// <param name="key">配置属性的键。</param>
         /// <param name="value">配置属性的值。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool TryGetValue(string key, out string value)
         {
             return _values.TryGetValue(key, out value);

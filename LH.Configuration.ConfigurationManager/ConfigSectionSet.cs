@@ -8,14 +8,14 @@ namespace LH.Configuration
     /// <summary>
     /// 配置容器集合。
     /// </summary>
-    public sealed class ConfigSectionSet : IEnumerable<KeyValuePair<string, ConfigSection>>, IEnumerable
+    public sealed class ConfigSectionSet : IEnumerable<KeyValuePair<string, IConfigSection>>, IEnumerable
     {
         private readonly IDictionary<string, XElement> _contents = new Dictionary<string, XElement>();
         private readonly XElement _contentSuperior;
         private readonly IDictionary<string, XElement> _declarations = new Dictionary<string, XElement>();
         private readonly XElement _declarationSuperior;
         private readonly ISavable _savable;
-        private readonly IDictionary<string, ConfigSection> _values = new Dictionary<string, ConfigSection>();
+        private readonly IDictionary<string, IConfigSection> _values = new Dictionary<string, IConfigSection>();
 
         /// <summary>
         /// 获取配置容器集合中包含的元素数。
@@ -30,14 +30,15 @@ namespace LH.Configuration
         /// <summary>
         /// 获取配置容器集合。
         /// </summary>
-        public ICollection<ConfigSection> Values => _values.Values;
+        public ICollection<IConfigSection> Values => _values.Values;
 
         /// <summary>
         /// 获取具有指定名称的配置容器的值。
         /// </summary>
         /// <param name="name">配置容器的名称。</param>
         /// <returns></returns>
-        public ConfigSection this[string name] => _values.ContainsKey(name) ? _values[name] : null;
+        /// <exception cref="Exception"/>
+        public IConfigSection this[string name] => _values.ContainsKey(name) ? _values[name] : null;
 
         #region Constructor
 
@@ -53,7 +54,7 @@ namespace LH.Configuration
                     string name = declaration.Attribute("name").Value;
                     string typeName = declaration.Attribute("type").Value;
                     XElement content = contentSuperior.Element(name);
-                    ConfigSection value;
+                    IConfigSection value;
                     switch (typeName)
                     {
                         case "System.Configuration.DictionarySectionHandler, System":
@@ -71,7 +72,7 @@ namespace LH.Configuration
                             value = new SingleTagSection(content, savable);
                             break;
 
-                        default: value = new CustumSection(typeName, content); break;
+                        default: value = new CustumSection(declaration, content, savable); break;
                     }
                     _values.Add(name, value);
                     _contents.Add(name, content);
@@ -81,6 +82,56 @@ namespace LH.Configuration
         }
 
         #endregion Constructor
+
+        /// <summary>
+        /// 添加一个自定义配置容器并返回值。
+        /// </summary>
+        /// <param name="name">配置容器的名称。</param>
+        /// <param name="typeName">配置容器的类型。</param>
+        /// <param name="xmlContent">配置容器的串联文本内容。</param>
+        /// <exception cref="Exception"/>
+        public CustumSection AddCustumSection(string name, string typeName, string xmlContent)
+        {
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (name.Contains(" "))
+            {
+                throw new ArgumentException(ExceptionMessages.InvalidKey.Message + " - " + nameof(name));
+            }
+            if (typeName is null)
+            {
+                throw new ArgumentNullException(nameof(typeName));
+            }
+            if (xmlContent is null)
+            {
+                throw new ArgumentNullException(nameof(xmlContent));
+            }
+            if (_values.ContainsKey(name))
+            {
+                throw new ArgumentException(ExceptionMessages.DuplicateKey.Message + " - " + nameof(name));
+            }
+            else
+            {
+                XElement declaration = new XElement("section");
+                declaration.SetAttributeValue("name", name);
+                declaration.SetAttributeValue("type", typeName);
+                xmlContent = $"<{name}>{xmlContent}</{name}>";
+                XElement content = XElement.Parse(xmlContent);
+                CustumSection value = new CustumSection(declaration, content, _savable);
+                _values.Add(name, value);
+                _contents.Add(name, content);
+                _contentSuperior.Add(content);
+                _declarations.Add(name, declaration);
+                _declarationSuperior.Add(declaration);
+                if (_savable.AutoSave)
+                {
+                    _savable.Save();
+                }
+                return value;
+            }
+        }
 
         /// <summary>
         /// 从配置容器集合中移除所有配置容器。
@@ -103,6 +154,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="name">配置容器的名称。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool ContainsName(string name)
         {
             return _values.ContainsKey(name);
@@ -112,7 +164,7 @@ namespace LH.Configuration
         /// 支持在泛型集合上进行简单迭代。
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<KeyValuePair<string, ConfigSection>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, IConfigSection>> GetEnumerator()
         {
             return _values.GetEnumerator();
         }
@@ -123,49 +175,51 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 获取与指定名称关联的配置容器的值。如果不存在，添加一个配置容器并返回值。
+        /// 获取与指定名称关联的配置容器的值。如果不存在，添加一个配置容器并返回值。不能使用此方法获取或添加 CustumSection 类型。
         /// </summary>
         /// <param name="name">配置容器的名称。</param>
         /// <param name="type">配置容器的类型。</param>
         /// <exception cref="Exception"/>
-        public ConfigSection GetOrAdd(string name, ConfigSectionType type)
+        public IConfigSection GetOrAdd(string name, ConfigSectionType type)
         {
-            if (_values.TryGetValue(name, out ConfigSection value))
+            if (name is null)
             {
-                switch (type)
-                {
-                    case ConfigSectionType.DictionarySection: return (DictionarySection)value;
-                    case ConfigSectionType.NameValueSection: return (NameValueSection)value;
-                    case ConfigSectionType.SingleTagSection: return (SingleTagSection)value;
-                    default: throw new ArgumentException(null, nameof(type));
-                }
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (name.Contains(" "))
+            {
+                throw new ArgumentException(ExceptionMessages.InvalidKey.Message + " - " + nameof(name));
+            }
+            if (_values.ContainsKey(name))
+            {
+                return _values[name];
             }
             else
             {
                 XElement declaration = new XElement("section");
                 declaration.SetAttributeValue("name", name);
                 XElement content = new XElement(name);
-                ConfigSection section;
+                IConfigSection value;
                 switch (type)
                 {
                     case ConfigSectionType.DictionarySection:
                         declaration.SetAttributeValue("type", "System.Configuration.DictionarySectionHandler");
-                        section = new DictionarySection(content, _savable);
+                        value = new DictionarySection(content, _savable);
                         break;
 
                     case ConfigSectionType.NameValueSection:
                         declaration.SetAttributeValue("type", "System.Configuration.NameValueSectionHandler");
-                        section = new NameValueSection(content, _savable);
+                        value = new NameValueSection(content, _savable);
                         break;
 
                     case ConfigSectionType.SingleTagSection:
                         declaration.SetAttributeValue("type", "System.Configuration.SingleTagSectionHandler");
-                        section = new SingleTagSection(content, _savable);
+                        value = new SingleTagSection(content, _savable);
                         break;
 
-                    default: throw new ArgumentException(nameof(value));
+                    default: throw new ArgumentException(ExceptionMessages.InvalidType.Message + " - " + nameof(type));
                 }
-                _values.Add(name, section);
+                _values.Add(name, value);
                 _contents.Add(name, content);
                 _contentSuperior.Add(content);
                 _declarations.Add(name, declaration);
@@ -174,7 +228,7 @@ namespace LH.Configuration
                 {
                     _savable.Save();
                 }
-                return section;
+                return value;
             }
         }
 
@@ -183,6 +237,7 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="name">配置容器的名称。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool Remove(string name)
         {
             if (_values.Remove(name))
@@ -209,9 +264,10 @@ namespace LH.Configuration
         /// <param name="name">配置容器的名称。</param>
         /// <param name="value">配置容器的值。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool TryGetValue(string name, out CustumSection value)
         {
-            if (_values.TryGetValue(name, out ConfigSection val))
+            if (_values.TryGetValue(name, out IConfigSection val))
             {
                 value = (CustumSection)val;
                 return true;
@@ -229,9 +285,10 @@ namespace LH.Configuration
         /// <param name="name">配置容器的名称。</param>
         /// <param name="value">配置容器的值。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool TryGetValue(string name, out DictionarySection value)
         {
-            if (_values.TryGetValue(name, out ConfigSection val))
+            if (_values.TryGetValue(name, out IConfigSection val))
             {
                 value = (DictionarySection)val;
                 return true;
@@ -249,9 +306,10 @@ namespace LH.Configuration
         /// <param name="name">配置容器的名称。</param>
         /// <param name="value">配置容器的值。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool TryGetValue(string name, out NameValueSection value)
         {
-            if (_values.TryGetValue(name, out ConfigSection val))
+            if (_values.TryGetValue(name, out IConfigSection val))
             {
                 value = (NameValueSection)val;
                 return true;
@@ -269,9 +327,10 @@ namespace LH.Configuration
         /// <param name="name">配置容器的名称。</param>
         /// <param name="value">配置容器的值。</param>
         /// <returns></returns>
+        /// <exception cref="Exception"/>
         public bool TryGetValue(string name, out SingleTagSection value)
         {
-            if (_values.TryGetValue(name, out ConfigSection val))
+            if (_values.TryGetValue(name, out IConfigSection val))
             {
                 value = (SingleTagSection)val;
                 return true;
@@ -289,7 +348,8 @@ namespace LH.Configuration
         /// <param name="name">配置容器的名称。</param>
         /// <param name="value">配置容器的值。</param>
         /// <returns></returns>
-        public bool TryGetValue(string name, out ConfigSection value)
+        /// <exception cref="Exception"/>
+        public bool TryGetValue(string name, out IConfigSection value)
         {
             return _values.TryGetValue(name, out value);
         }

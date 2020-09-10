@@ -6,20 +6,29 @@ namespace LH.Configuration
     /// <summary>
     /// 配置容器。
     /// </summary>
-    public sealed class CustumSection : ConfigSection
+    public sealed class CustumSection : IConfigSection
     {
-        private readonly string _xmlString;
+        private readonly XElement _content;
+        private readonly XElement _declaration;
+        private readonly ISavable _savable;
+
+        /// <summary>
+        /// 获取配置容器的类型的文本表示。
+        /// </summary>
+        public string TypeName => _declaration.Attribute("type").Value;
 
         /// <summary>
         /// 获取节点的缩进 Xml 文本。
         /// </summary>
-        public string XmlString => _xmlString;
+        public string XmlString => _content.ToString();
 
         #region Constructor
 
-        internal CustumSection(string typeName, XElement content) : base(typeName)
+        internal CustumSection(XElement declaration, XElement content, ISavable savable)
         {
-            _xmlString = content.ToString();
+            _declaration = declaration;
+            _content = content;
+            _savable = savable;
         }
 
         #endregion Constructor
@@ -31,7 +40,7 @@ namespace LH.Configuration
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            return obj is CustumSection other && _xmlString.Equals(other._xmlString, StringComparison.InvariantCulture);
+            return obj is CustumSection other && _declaration.Equals(other._declaration) && _content.Equals(other._content);
         }
 
         /// <summary>
@@ -40,7 +49,31 @@ namespace LH.Configuration
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return _xmlString.GetHashCode();
+            return _declaration.GetHashCode() ^ _content.GetHashCode();
+        }
+
+        /// <summary>
+        /// 修改内容。内容不能是 null。
+        /// </summary>
+        /// <param name="typeName">配置容器的类型。</param>
+        /// <param name="xmlContent">配置容器的串联文本内容。</param>
+        /// <exception cref="Exception"/>
+        public void Modify(string typeName, string xmlContent)
+        {
+            if (typeName is null)
+            {
+                throw new ArgumentNullException(nameof(typeName));
+            }
+            if (xmlContent is null)
+            {
+                throw new ArgumentNullException(nameof(xmlContent));
+            }
+            _declaration.SetAttributeValue("type", typeName);
+            _content.Value = xmlContent;
+            if (_savable.AutoSave)
+            {
+                _savable.Save();
+            }
         }
 
         /// <summary>
@@ -49,7 +82,7 @@ namespace LH.Configuration
         /// <returns></returns>
         public override string ToString()
         {
-            return _xmlString;
+            return _content.ToString();
         }
     }
 }

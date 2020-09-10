@@ -188,7 +188,7 @@ public static void Create()
     using (ConfigurationManager manager = new ConfigurationManager(filePath))
     {
         //
-        // 支持三种标准类型的创建
+        // 支持三种标准类型的创建。
         // System.Configuration.SingleTagSectionHandler
         // System.Configuration.NameValueSectionHandler
         // System.Configuration.DictionarySectionHandler
@@ -219,6 +219,11 @@ public static void Create()
         section3.Properties["section_prop13"] = (char)Common.Random.Next(65, 91);
         section3.Properties["section_prop14"] = new byte[] { 0x01, 0x02, 0x03, 0x0A, 0x0B, 0x0C };
         section3.Properties["section_prop15"] = "支持 15 种单值类型";
+        //
+        // 支持自定义类型的创建，需要检查是否已存在。
+        //
+        manager.ConfigSections.Sections.Remove("section4");
+        manager.ConfigSections.Sections.AddCustumSection("section4", "This is a custom section.", "<arbitrarily>任意文本内容或 XML 内容</arbitrarily><arbitrarily>任意文本内容或 XML 内容</arbitrarily>");
         //
         // 保存到创建实例时指定的文件。
         //
@@ -268,8 +273,8 @@ public static string Load()
         //
         if (manager.ConfigSections.Sections.TryGetValue("section4", out CustumSection section4))
         {
-            var typeName = section4.TypeName;
-            var xml = section4.XmlString;
+            result.AppendLine(section4.TypeName);
+            result.AppendLine(section4.XmlString);
         }
     }
     return result.ToString();

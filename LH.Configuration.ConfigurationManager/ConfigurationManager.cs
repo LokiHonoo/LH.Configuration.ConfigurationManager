@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace LH.Configuration
@@ -11,6 +13,7 @@ namespace LH.Configuration
     public sealed class ConfigurationManager : IDisposable, ISavable
     {
         private readonly string _filePath;
+        private readonly XmlWriterSettings _writerSettings = new XmlWriterSettings() { Indent = true, Encoding = new UTF8Encoding(false) };
         private AppSettings _appSettings;
         private bool _autoSave;
         private ConfigSections _configSections;
@@ -153,9 +156,9 @@ namespace LH.Configuration
         #endregion Constructor
 
         /// <summary>
-        /// 创建映射到默认配置文件的 <see cref="ConfigurationManager"/> 实例。文件名形如 *.exe.config。
+        /// 创建映射到默认配置文件的 <see cref="ConfigurationManager"/> 实例。文件路径形如 WorkDirectory\program.exe.config。
         /// </summary>
-        public static ConfigurationManager CreateStandard()
+        public static ConfigurationManager CreateAppConfigManager()
         {
             return new ConfigurationManager(Assembly.GetEntryAssembly().Location + ".config");
         }
@@ -184,15 +187,19 @@ namespace LH.Configuration
         /// </summary>
         public void Save()
         {
-            if (!string.IsNullOrEmpty(_filePath))
+            if (!string.IsNullOrWhiteSpace(_filePath))
             {
-                _root.Save(_filePath);
+                using (XmlWriter writer = XmlWriter.Create(_filePath, _writerSettings))
+                {
+                    _root.Save(writer);
+                }
             }
         }
 
         /// <summary>
         /// 保存到指定的流。
         /// </summary>
+        /// <exception cref="Exception"/>
         public void Save(Stream stream)
         {
             if (stream is null)
@@ -200,16 +207,23 @@ namespace LH.Configuration
                 throw new ArgumentNullException(nameof(stream));
             }
             stream.SetLength(0);
-            _root.Save(stream);
+            using (XmlWriter writer = XmlWriter.Create(stream, _writerSettings))
+            {
+                _root.Save(writer);
+            }
         }
 
         /// <summary>
         /// 保存到指定的文件。
         /// </summary>
         /// <param name="filePath">文件路径。</param>
+        /// <exception cref="Exception"/>
         public void Save(string filePath)
         {
-            _root.Save(filePath);
+            using (XmlWriter writer = XmlWriter.Create(filePath, _writerSettings))
+            {
+                _root.Save(writer);
+            }
         }
 
         /// <summary>

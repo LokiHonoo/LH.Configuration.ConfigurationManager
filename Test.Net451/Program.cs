@@ -7,6 +7,7 @@ namespace Test
     {
         private static void Main()
         {
+            Common.SetLocalException();
             TestAppSettings.Create();
             Console.WriteLine(TestAppSettings.Load());
             TestConnectionStrings.Create();

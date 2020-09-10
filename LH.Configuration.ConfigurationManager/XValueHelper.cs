@@ -75,7 +75,7 @@ namespace LH.Configuration
 
         private static byte[] GetHexBytes(string hex)
         {
-            if (string.IsNullOrEmpty(hex))
+            if (string.IsNullOrWhiteSpace(hex))
             {
                 throw new ArgumentNullException(nameof(hex));
             }
