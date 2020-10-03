@@ -20,9 +20,9 @@
 
 ## 简介
 
-LH.Configuration.ConfigurationManager 是 System.Configuration.ConfigurationManager 的简单替代。
+此项目是 System.Configuration.ConfigurationManager 的简单替代。
 
-LH.Configuration.ConfigurationManager 开发的主要目的是在 NET Framework 4.0 中读写配置文件。
+开发用于 .NET Framework 4.0+/.NET Standard 2.0+/UWP 中读写配置文件。
 
 提供对 appSettings、connectionStrings、configSections 节点的有限读写支持。
 
@@ -294,8 +294,6 @@ manager.AutoSave = true;
 
 必须使用流方式。
 不支持自动保存。
-
-UWP 项目推荐使用内置的 ApplicationData 配置方案。
 
 ```c#
 

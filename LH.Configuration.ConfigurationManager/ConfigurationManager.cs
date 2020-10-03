@@ -72,7 +72,7 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 获取映射的文件路径。
+        /// 获取映射的配置文件的路径。
         /// </summary>
         public string FilePath => _filePath;
 
@@ -90,7 +90,7 @@ namespace LH.Configuration
         /// <summary>
         /// 创建 ConfigurationManager 的新实例。
         /// </summary>
-        /// <param name="stream">指定配置文件的源流，从中读取配置。</param>
+        /// <param name="stream">指定配置文件的流。</param>
         public ConfigurationManager(Stream stream)
         {
             if (stream is null || stream.Length == 0)
@@ -108,11 +108,11 @@ namespace LH.Configuration
         /// <summary>
         /// 创建 ConfigurationManager 的新实例。
         /// </summary>
-        /// <param name="filePath">指定配置文件路径。要启用自动保存必须指定文件路径。</param>
+        /// <param name="filePath">指定配置文件的路径。</param>
         public ConfigurationManager(string filePath)
         {
-            FileInfo info = new FileInfo(filePath);
-            if (info.Exists && info.Length > 0)
+            FileInfo file = new FileInfo(filePath);
+            if (file.Exists && file.Length > 0)
             {
                 _root = XElement.Load(filePath);
             }
@@ -199,6 +199,7 @@ namespace LH.Configuration
         /// <summary>
         /// 保存到指定的流。
         /// </summary>
+        /// <param name="stream">指定配置文件的流。</param>
         /// <exception cref="Exception"/>
         public void Save(Stream stream)
         {
@@ -216,7 +217,7 @@ namespace LH.Configuration
         /// <summary>
         /// 保存到指定的文件。
         /// </summary>
-        /// <param name="filePath">文件路径。</param>
+        /// <param name="filePath">指定配置文件的路径。</param>
         /// <exception cref="Exception"/>
         public void Save(string filePath)
         {

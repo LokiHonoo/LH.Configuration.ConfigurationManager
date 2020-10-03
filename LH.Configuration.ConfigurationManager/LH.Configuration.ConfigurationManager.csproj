@@ -9,9 +9,9 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>LH.Configuration.ConfigurationManager.snk</AssemblyOriginatorKeyFile>
     <Authors>Loki Honoo</Authors>
-    <Description>LH.Configuration.ConfigurationManager is a replacement for System.Configuration.ConfigurationManager.
+    <Description>The project is a replacement for System.Configuration.ConfigurationManager.
 
-LH.Configuration.ConfigurationManager developing for read/write profiles in NET Framework 4.0.
+It's developing for read/write profiles in .NET Framework 4.0+/.NET Standard 2.0+/UWP.
 
 Limited read/write support for appSettings, connectionStrings, configSections nodes.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
