@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net40;net451;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
     <PackageId>LH.Configuration.ConfigurationManager</PackageId>
     <Company>LH.Studio</Company>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -17,37 +17,18 @@ Limited read/write support for appSettings, connectionStrings, configSections no
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/LokiHonoo/LH.Configuration.ConfigurationManager</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
-    <PackageTags>LH Configuration ConfigurationManager net4 net40 netstandard uwp</PackageTags>
+    <PackageTags>LH Configuration ConfigurationManager netframework net4 net40 netstandard uwp</PackageTags>
     <AssemblyName>LH.Configuration.ConfigurationManager</AssemblyName>
     <RootNamespace>LH.Configuration</RootNamespace>
     <PackageIcon>LH.Logo_32x32-32.png</PackageIcon>
     <Version>1.0.6</Version>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\bin\Debug</OutputPath>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
-    <OutputPath>..\bin\Release</OutputPath>
-    <DocumentationFile>..\bin\Release\$(TargetFramework)\$(PackageId).xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net451|AnyCPU'">
-    <OutputPath>..\bin\Debug</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
-    <OutputPath>..\bin\Release</OutputPath>
-    <DocumentationFile>..\bin\Release\$(TargetFramework)\$(PackageId).xml</DocumentationFile>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <OutputPath>..\bin\Debug</OutputPath>
-    <DocumentationFile>..\bin\Release\$(TargetFramework)\$(PackageId).xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\bin\Release</OutputPath>
     <DocumentationFile>..\bin\Release\$(TargetFramework)\$(PackageId).xml</DocumentationFile>
   </PropertyGroup>

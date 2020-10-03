@@ -42,16 +42,17 @@ namespace Middleware
                 manager.ConnectionStrings.Properties.AddOrUpdate("prop1", conn1);
                 manager.ConnectionStrings.Properties["prop2"] = new ConnectionStringsValue(conn1);
                 manager.ConnectionStrings.Properties.AddOrUpdate("prop3", conn2.ConnectionString, typeof(MySqlConnection).Namespace);
+                manager.ConnectionStrings.Properties.AddOrUpdate("prop4", conn2.ConnectionString, typeof(MySqlConnection).AssemblyQualifiedName);
                 //
                 // 不设置引擎参数，读取时不能直接创建连接实例。
                 //
-                manager.ConnectionStrings.Properties["prop4"] = new ConnectionStringsValue(conn2.ConnectionString, string.Empty);
+                manager.ConnectionStrings.Properties["prop5"] = new ConnectionStringsValue(conn2.ConnectionString, string.Empty);
                 //
                 // 移除属性的方法。选择其一。
                 //
-                manager.ConnectionStrings.Properties.AddOrUpdate("prop4", (DbConnection)null);
-                manager.ConnectionStrings.Properties["prop4"] = null;
-                manager.ConnectionStrings.Properties.Remove("prop4");
+                manager.ConnectionStrings.Properties.AddOrUpdate("prop5", (DbConnection)null);
+                manager.ConnectionStrings.Properties["prop5"] = null;
+                manager.ConnectionStrings.Properties.Remove("prop5");
                 //
                 // 保存到创建实例时指定的文件。
                 //
@@ -71,17 +72,20 @@ namespace Middleware
                 //
                 // 取出属性。
                 //
-                if (manager.ConnectionStrings.Properties.TryGetValue("prop1", out ConnectionStringsValue property))
+                if (manager.ConnectionStrings.Properties.TryGetValue("prop1", out ConnectionStringsValue value))
                 {
-                    result.AppendLine(property.Connection.ConnectionString);
+                    result.AppendLine(value.Connection.ConnectionString);
                 }
-                DbConnection connection = manager.ConnectionStrings.Properties["prop2"].Connection;
-                result.AppendLine(connection.ConnectionString);
                 //
                 // 不访问 Connection，属性内部没有实例化 Connection。项目没有引用相关数据库引擎时使用。
                 //
-                string connectionString = manager.ConnectionStrings.Properties["prop3"].ConnectionString;
+                string connectionString = manager.ConnectionStrings.Properties["prop2"].ConnectionString;
                 result.AppendLine(connectionString);
+                DbConnection connection = manager.ConnectionStrings.Properties["prop3"].Connection;
+                result.AppendLine(connection.ConnectionString);
+
+                MySqlConnection mysql = (MySqlConnection)manager.ConnectionStrings.Properties["prop4"].Connection;
+                result.AppendLine(mysql.ConnectionString);
             }
             return result.ToString();
         }

@@ -27,29 +27,29 @@ namespace Middleware
                 // 直接赋值等同于 AddOrUpdate 方法。
                 //
                 SingleTagSection section1 = (SingleTagSection)manager.ConfigSections.Sections.GetOrAdd("section1", ConfigSectionType.SingleTagSection);
-                section1.Properties.AddOrUpdate("section_prop1", Common.Random.NextDouble().ToString());
-                section1.Properties["section_prop2"] = Common.Random.NextDouble().ToString();
+                section1.Properties.AddOrUpdate("prop1", Common.Random.NextDouble().ToString());
+                section1.Properties["prop2"] = Common.Random.NextDouble().ToString();
                 NameValueSection section2 = (NameValueSection)manager.ConfigSections.Sections.GetOrAdd("section2", ConfigSectionType.NameValueSection);
-                section2.Properties.AddOrUpdate("section_prop1", Common.Random.NextDouble().ToString());
-                section2.Properties["section_prop2"] = Common.Random.NextDouble().ToString();
+                section2.Properties.AddOrUpdate("prop1", Common.Random.NextDouble().ToString());
+                section2.Properties["prop2"] = Common.Random.NextDouble().ToString();
                 //
                 ConfigSectionGroup group = manager.ConfigSections.Groups.GetOrAdd("sectionGroup1");
                 DictionarySection section3 = (DictionarySection)group.Sections.GetOrAdd("section3", ConfigSectionType.DictionarySection);
-                section3.Properties.AddOrUpdate("section_prop1", true);
-                section3.Properties.AddOrUpdate("section_prop2", sbyte.MaxValue);
-                section3.Properties.AddOrUpdate("section_prop3", byte.MaxValue);
-                section3.Properties.AddOrUpdate("section_prop4", short.MaxValue);
-                section3.Properties.AddOrUpdate("section_prop5", ushort.MaxValue);
-                section3.Properties.AddOrUpdate("section_prop6", int.MaxValue);
-                section3.Properties.AddOrUpdate("section_prop7", uint.MaxValue);
-                section3.Properties["section_prop8"] = long.MaxValue;
-                section3.Properties["section_prop9"] = ulong.MaxValue;
-                section3.Properties["section_prop10"] = float.MaxValue / 2; // 防止 NET40 浮点数精度问题导致的溢出
-                section3.Properties["section_prop11"] = double.MaxValue / 2; // 防止 NET40 浮点数精度问题导致的溢出
-                section3.Properties["section_prop12"] = decimal.MaxValue;
-                section3.Properties["section_prop13"] = (char)Common.Random.Next(65, 91);
-                section3.Properties["section_prop14"] = new byte[] { 0x01, 0x02, 0x03, 0x0A, 0x0B, 0x0C };
-                section3.Properties["section_prop15"] = "支持 15 种单值类型";
+                section3.Properties.AddOrUpdate("prop1", true);
+                section3.Properties.AddOrUpdate("prop2", sbyte.MaxValue);
+                section3.Properties.AddOrUpdate("prop3", byte.MaxValue);
+                section3.Properties.AddOrUpdate("prop4", short.MaxValue);
+                section3.Properties.AddOrUpdate("prop5", ushort.MaxValue);
+                section3.Properties.AddOrUpdate("prop6", int.MaxValue);
+                section3.Properties.AddOrUpdate("prop7", uint.MaxValue);
+                section3.Properties["prop8"] = long.MaxValue;
+                section3.Properties["prop9"] = ulong.MaxValue;
+                section3.Properties["prop10"] = float.MaxValue / 2; // 避免浮点数溢出
+                section3.Properties["prop11"] = double.MaxValue / 2; // 避免浮点数溢出
+                section3.Properties["prop12"] = decimal.MaxValue;
+                section3.Properties["prop13"] = (char)Common.Random.Next(65, 91);
+                section3.Properties["prop14"] = new byte[] { 0x01, 0x02, 0x03, 0x0A, 0x0B, 0x0C };
+                section3.Properties["prop15"] = "支持 15 种单值类型";
                 //
                 // 支持自定义类型的创建，需要检查是否已存在。
                 //

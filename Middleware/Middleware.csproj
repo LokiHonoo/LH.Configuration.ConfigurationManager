@@ -18,11 +18,11 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <PackageReference Include="MySql.Data" Version="6.9.12" />
   </ItemGroup>
-  
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <PackageReference Include="MySql.Data" Version="6.9.12" />
   </ItemGroup>
-  
+
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="MySql.Data" Version="6.10.7" />
   </ItemGroup>
@@ -30,13 +30,13 @@
   <ItemGroup>
     <ProjectReference Include="..\LH.Configuration.ConfigurationManager\LH.Configuration.ConfigurationManager.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net451'">
     <PackageReference Include="System.Data.SqlClient">
       <Version>4.8.2</Version>
     </PackageReference>
   </ItemGroup>
-  
+ 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="System.Data.SqlClient">
       <Version>4.8.2</Version>

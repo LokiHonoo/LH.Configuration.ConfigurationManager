@@ -93,14 +93,18 @@ namespace LH.Configuration
         /// <param name="stream">指定配置文件的流。</param>
         public ConfigurationManager(Stream stream)
         {
-            if (stream is null || stream.Length == 0)
+            if (stream is null)
             {
-                _root = new XElement("configuration");
+                throw new ArgumentNullException(nameof(stream));
             }
-            else
+            if (stream.Length > 0)
             {
                 stream.Seek(0, SeekOrigin.Begin);
                 _root = XElement.Load(stream);
+            }
+            else
+            {
+                _root = new XElement("configuration");
             }
             _filePath = string.Empty;
         }
@@ -111,6 +115,10 @@ namespace LH.Configuration
         /// <param name="filePath">指定配置文件的路径。</param>
         public ConfigurationManager(string filePath)
         {
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
             FileInfo file = new FileInfo(filePath);
             if (file.Exists && file.Length > 0)
             {
@@ -120,7 +128,7 @@ namespace LH.Configuration
             {
                 _root = new XElement("configuration");
             }
-            _filePath = filePath;
+            _filePath = filePath.Trim();
         }
 
         /// <summary>
@@ -156,7 +164,7 @@ namespace LH.Configuration
         #endregion Constructor
 
         /// <summary>
-        /// 创建映射到默认配置文件的 <see cref="ConfigurationManager"/> 实例。文件路径形如 WorkDirectory\program.exe.config。
+        /// 创建映射到默认配置文件的 <see cref="ConfigurationManager"/> 实例。文件路径形如 Directory\program.exe.config。
         /// </summary>
         public static ConfigurationManager CreateAppConfigManager()
         {
@@ -221,6 +229,10 @@ namespace LH.Configuration
         /// <exception cref="Exception"/>
         public void Save(string filePath)
         {
+            if (string.IsNullOrWhiteSpace(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
             using (XmlWriter writer = XmlWriter.Create(filePath, _writerSettings))
             {
                 _root.Save(writer);
@@ -228,7 +240,7 @@ namespace LH.Configuration
         }
 
         /// <summary>
-        /// 方法已重写。返回根节点的缩进 XML 文本。不包括文档描述。
+        /// 方法已重写。返回根节点的缩进 XML 文本。不包括文档声明。
         /// </summary>
         /// <returns></returns>
         public override string ToString()

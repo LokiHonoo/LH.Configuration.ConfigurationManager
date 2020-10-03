@@ -37,7 +37,7 @@ namespace LH.Configuration
         public string ConnectionString => _connectionString;
 
         /// <summary>
-        /// 获取数据库引擎的文本名称。
+        /// 获取数据库引擎的文本名称。如果连接属性没有数据库引擎参数，值是 null。
         /// </summary>
         public string ProviderName => _providerName;
 
@@ -84,7 +84,7 @@ namespace LH.Configuration
         {
             _content = content;
             _connectionString = content.Attribute("connectionString").Value;
-            _providerName = content.Attribute("providerName").Value;
+            _providerName = content.Attribute("providerName")?.Value;
         }
 
         #endregion Constructor
@@ -159,7 +159,7 @@ namespace LH.Configuration
                 case "Microsoft.SqlServerCe.Client": type = Type.GetType("Microsoft.SqlServerCe.Client.SqlCeConnection, Microsoft.SqlServerCe.Client"); break;
                 case "Microsoft.Data.Sqlite": type = Type.GetType("Microsoft.Data.Sqlite.SqliteConnection, Microsoft.Data.Sqlite"); break;
                 case "Oracle.DataAccess.Client": type = Type.GetType("Oracle.DataAccess.Client.OracleConnection, Oracle.DataAccess.Client"); break;
-                case "MySql.Data.MySqlClient": type = Type.GetType("MySql.Data.MySqlClient.MySqlConnection, MySql.Data.MySqlClient"); break;
+                case "MySql.Data.MySqlClient": type = Type.GetType("MySql.Data.MySqlClient.MySqlConnection, MySql.Data"); break;
                 case "MySqlConnector": type = Type.GetType("MySqlConnector.MySqlConnection, MySqlConnector"); break;
                 default: type = Type.GetType(providerName); break;
             }
