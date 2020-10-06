@@ -88,9 +88,9 @@ namespace LH.Configuration
         /// </summary>
         /// <param name="name">配置容器的名称。</param>
         /// <param name="typeName">配置容器的类型。</param>
-        /// <param name="xmlContent">配置容器的串联文本内容。</param>
+        /// <param name="xmlString">配置容器的串联内容。</param>
         /// <exception cref="Exception"/>
-        public CustumSection AddCustumSection(string name, string typeName, string xmlContent)
+        public CustumSection AddCustumSection(string name, string typeName, string xmlString)
         {
             if (name is null)
             {
@@ -104,9 +104,9 @@ namespace LH.Configuration
             {
                 throw new ArgumentNullException(nameof(typeName));
             }
-            if (xmlContent is null)
+            if (xmlString is null)
             {
-                throw new ArgumentNullException(nameof(xmlContent));
+                throw new ArgumentNullException(nameof(xmlString));
             }
             if (_values.ContainsKey(name))
             {
@@ -117,8 +117,7 @@ namespace LH.Configuration
                 XElement declaration = new XElement("section");
                 declaration.SetAttributeValue("name", name);
                 declaration.SetAttributeValue("type", typeName);
-                xmlContent = $"<{name}>{xmlContent}</{name}>";
-                XElement content = XElement.Parse(xmlContent);
+                XElement content = XElement.Parse($"<{name}>{xmlString}</{name}>");
                 CustumSection value = new CustumSection(declaration, content, _savable);
                 _values.Add(name, value);
                 _contents.Add(name, content);

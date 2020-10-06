@@ -16,12 +16,12 @@ It's developing for read/write profiles in .NET Framework 4.0+/.NET Standard 2.0
 Limited read/write support for appSettings, connectionStrings, configSections nodes.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/LokiHonoo/LH.Configuration.ConfigurationManager</PackageProjectUrl>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://github.com/LokiHonoo/LH.Configuration.ConfigurationManager</RepositoryUrl>
     <PackageTags>LH Configuration ConfigurationManager netframework net4 net40 netstandard uwp</PackageTags>
     <AssemblyName>LH.Configuration.ConfigurationManager</AssemblyName>
     <RootNamespace>LH.Configuration</RootNamespace>
     <PackageIcon>LH.Logo_32x32-32.png</PackageIcon>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

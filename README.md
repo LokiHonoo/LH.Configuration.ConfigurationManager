@@ -222,12 +222,13 @@ public static void Create()
         section3.Properties["prop12"] = decimal.MaxValue;
         section3.Properties["prop13"] = (char)Common.Random.Next(65, 91);
         section3.Properties["prop14"] = new byte[] { 0x01, 0x02, 0x03, 0x0A, 0x0B, 0x0C };
-        section3.Properties["prop15"] = "支持 15 种单值类型";
+        section3.Properties["prop15"] = "支持 15 种单值类型";+
         //
         // 支持自定义类型的创建，需要检查是否已存在。
         //
         manager.ConfigSections.Sections.Remove("section4");
-        manager.ConfigSections.Sections.AddCustumSection("section4", "This is a custom section.", "<arbitrarily>任意文本内容或 XML 内容</arbitrarily><arbitrarily>任意文本内容或 XML 内容</arbitrarily>");
+        CustumSection cs = manager.ConfigSections.Sections.AddCustumSection("section4", "This is a custom section.", "任意文本内容或 XML 内容");
+        cs.Modify("This is a custom section.", "<arbitrarily>任意文本内容或 XML 内容</arbitrarily><arbitrarily>任意文本内容或 XML 内容</arbitrarily>");
         //
         // 保存到创建实例时指定的文件。
         //

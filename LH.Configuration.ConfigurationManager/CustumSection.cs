@@ -18,9 +18,12 @@ namespace LH.Configuration
         public string TypeName => _declaration.Attribute("type").Value;
 
         /// <summary>
-        /// 获取节点的缩进 Xml 文本。
+        /// 获取配置容器的串联内容。节点缩进已经移除。
         /// </summary>
-        public string XmlString => _content.ToString();
+        public string XmlString => _content.ToString(SaveOptions.DisableFormatting)
+            .Replace($"<{_content.Name}>", string.Empty)
+            .Replace($"</{_content.Name}>", string.Empty)
+            .Replace($"<{_content.Name} />", string.Empty);
 
         #region Constructor
 
@@ -56,20 +59,37 @@ namespace LH.Configuration
         /// 修改内容。内容不能是 null。
         /// </summary>
         /// <param name="typeName">配置容器的类型。</param>
-        /// <param name="xmlContent">配置容器的串联文本内容。</param>
+        /// <param name="xmlString">配置容器的串联内容。</param>
         /// <exception cref="Exception"/>
-        public void Modify(string typeName, string xmlContent)
+        public void Modify(string typeName, string xmlString)
         {
             if (typeName is null)
             {
                 throw new ArgumentNullException(nameof(typeName));
             }
-            if (xmlContent is null)
+            if (xmlString is null)
             {
-                throw new ArgumentNullException(nameof(xmlContent));
+                throw new ArgumentNullException(nameof(xmlString));
             }
             _declaration.SetAttributeValue("type", typeName);
-            _content.Value = xmlContent;
+            bool converted = false;
+            if (xmlString.Trim().StartsWith("<", StringComparison.InvariantCulture))
+            {
+                try
+                {
+                    XElement tmp = XElement.Parse($"<tmp>{xmlString}</tmp>");
+                    if (tmp.HasElements)
+                    {
+                        _content.ReplaceAll(tmp.Elements());
+                        converted = true;
+                    }
+                }
+                catch { }
+            }
+            if (!converted)
+            {
+                _content.SetValue(xmlString);
+            }
             if (_savable.AutoSave)
             {
                 _savable.Save();

@@ -54,7 +54,8 @@ namespace Middleware
                 // 支持自定义类型的创建，需要检查是否已存在。
                 //
                 manager.ConfigSections.Sections.Remove("section4");
-                manager.ConfigSections.Sections.AddCustumSection("section4", "This is a custom section.", "<arbitrarily>任意文本内容或 XML 内容</arbitrarily><arbitrarily>任意文本内容或 XML 内容</arbitrarily>");
+                CustumSection cs = manager.ConfigSections.Sections.AddCustumSection("section4", "This is a custom section.", "任意文本内容或 XML 内容");
+                cs.Modify("This is a custom section.", "<arbitrarily>任意文本内容或 XML 内容</arbitrarily><arbitrarily>任意文本内容或 XML 内容</arbitrarily>");
                 //
                 // 保存到创建实例时指定的文件。
                 //
