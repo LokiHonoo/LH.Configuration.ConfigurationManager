@@ -7,7 +7,7 @@
 - [LH.Configuration.ConfigurationManager](#lhconfigurationconfigurationmanager)
   - [简介](#简介)
   - [快速上手](#快速上手)
-    - [添加 NuGet 包](#添加-nuget-包)
+    - [NuGet](#nuget)
     - [引用命名空间](#引用命名空间)
     - [appSettings](#appsettings)
     - [connectionStrings](#connectionstrings)
@@ -28,16 +28,16 @@
 
 ## 快速上手
 
-### 添加 NuGet 包
+### NuGet
 
-```commandline
-PM> Install-Package LH.Configuration.ConfigurationManager
-```
+<https://www.nuget.org/packages/LH.Configuration.ConfigurationManager/>
 
 ### 引用命名空间
 
 ```c#
+
 using LH.Configuration;
+
 ```
 
 ### appSettings
@@ -222,7 +222,7 @@ public static void Create()
         section3.Properties["prop12"] = decimal.MaxValue;
         section3.Properties["prop13"] = (char)Common.Random.Next(65, 91);
         section3.Properties["prop14"] = new byte[] { 0x01, 0x02, 0x03, 0x0A, 0x0B, 0x0C };
-        section3.Properties["prop15"] = "支持 15 种单值类型";+
+        section3.Properties["prop15"] = "支持 15 种单值类型";
         //
         // 支持自定义类型的创建，需要检查是否已存在。
         //
